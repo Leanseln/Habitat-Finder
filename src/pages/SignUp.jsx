@@ -1,5 +1,5 @@
 import { FcGoogle } from "react-icons/fc"
-
+import { AiFillAlert } from "react-icons/ai";
 const SignUp = () => {
     return (
         
@@ -29,7 +29,7 @@ const SignUp = () => {
 
         <p className="text-sm">have an account? <b>Login</b></p>
         
-        
+        <AiFillAlert />
         </div> </div> 
         </>
     )
