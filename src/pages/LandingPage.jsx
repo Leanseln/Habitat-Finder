@@ -54,7 +54,7 @@ const LandingPage = () => {
           et netus et malesuada fames ac turpis egestas.
         </p>
       </div>
-            
+           
         </>
     )
 }
