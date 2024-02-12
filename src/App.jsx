@@ -6,8 +6,6 @@ import SignIn from "./pages/SignIn"
 import SignUp from "./pages/SignUp"
 import ForgotPassword from "./pages/ForgotPassword"
 import LandingPage from "./pages/LandingPage"
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   
