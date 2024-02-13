@@ -7,6 +7,9 @@ import SignUp from "./pages/SignUp"
 import ForgotPassword from "./pages/ForgotPassword"
 import LandingPage from "./pages/LandingPage"
 import { ToastContainer } from "react-toastify";
+import PrivateRoute from "./components/PrivateRoute";
+import 'react-toastify/dist/ReactToastify.css';
+import AddProperty from "./pages/AddProperty"
 
 function App() {
   
@@ -16,12 +19,19 @@ function App() {
       <BrowserRouter>
         
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/" element={<PrivateRoute />}>
+            <Route path="/" element={<Home />} />
+          </Route>
+          <Route path="/profile" element={<PrivateRoute />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/landingpage" element={<LandingPage />} />
+          <Route path="/addproperty" element={<PrivateRoute />}>
+            <Route path="/addproperty" element={<AddProperty />} />
+          </Route>
         </Routes>
       </BrowserRouter>
       <ToastContainer
@@ -35,7 +45,8 @@ function App() {
         draggable
         pauseOnHover
         theme="dark"
-      />
+        />
+    
     </>
   )
 }
