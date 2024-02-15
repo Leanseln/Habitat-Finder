@@ -1,73 +1,39 @@
-import HabitatLogo from '../images/habitatlogo.png';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { useEffect, useState } from "react";
+import LOGO from '../images/LOGO.png';
+import LoginModal from '../hooks/LoginModal';
+import RegisterModal from '../hooks/RegisterModal';
+import { useState } from 'react';
+
 
 const Header = () => {
 
-    const location = useLocation();
-    const navigate = useNavigate();
-    const [pageState, setPageState] = useState("Sign in");
-    const [pageSignup, setpageSignup] = useState("Sign up");
-    
-    const auth = getAuth();
+    const [showModalLogin, setShowModalLogin] = useState(false);
+    const [showModalRegister, setShowModalRegister] = useState(false);
 
-    useEffect( ()=> {
-        onAuthStateChanged(auth, (user)=> {
-            if(user){
-                setPageState("Profile");
-                setpageSignup("Logout");
-            } else {
-                setPageState("Sign In");
-                setpageSignup("Sign up");
-            }
-
-        })
-    }, [auth]);
-
-    const pathMatchRoute = (route) => {
-        if(route === location.pathname) {
-            return true;
-        }
-    }
-
-    const signin = (e) => {
-        e.preventDefault()
-
-        navigate('/signin');
-    }
-
-    const signup = (e) => {
-        e.preventDefault()
-
-        navigate('/signup');
-    }
-
-    const onLogout = () => {
-        auth.signOut()
-        navigate('/signin')
-    }
-
-    
     return (
         <>
-            <header className=' flex items-center justify-between container mx-auto pt-2'>
+            <header className='bg-[#EFC7A2]'>
+                <div className='flex items-center justify-between container mx-auto py-2 lg:px-24'>
                 <div>
-                    <img src={HabitatLogo} className='w-40 md:w-[60%] lg:w-[70%]' />
+                    <img src={LOGO} className='h-12 hover:scale-105' />
                 </div>
 
                 <div>
                     <ul className='flex space-x-10'>
-                        <li className={` text-sm font-semibold text-gray-800 border-b-[3px] border-b-transparent cursor-pointer ${location.pathname === "/" ? "text-black border-b-red-500" : ""}`} 
-                        onClick={()=>navigate("/")}>Home</li>
-                        
-                        <li className={` text-sm font-semibold text-gray-800 border-b-[3px] border-b-transparent cursor-pointer ${location.pathname === "/signin" || location.pathname === "/profile" ? "text-black border-b-red-500" : ""}`}
-                        onClick={()=>navigate('/profile')}>
-                            {pageState}
+                        <li className='text-sm font-semibold text-gray-800 border-b-[3px] border-b-transparent cursor-pointer hover:scale-105 hover:text-[#BD5B00] transition ease-in-out'
+                        onClick={() => setShowModalLogin(true)}>
+                            Login
+                        </li>
+
+                        <li className='text-sm font-semibold text-gray-800 border-b-[3px] border-b-transparent cursor-pointer hover:scale-105 hover:text-[#BD5B00] transition ease-in-out'
+                        onClick={() => setShowModalRegister(true)}>
+                            Register
                         </li>
                     </ul>
                 </div>
+                </div>
             </header>
+        {showModalLogin && <LoginModal closeModal={setShowModalLogin} />}
+        {showModalRegister && <RegisterModal closeModal={setShowModalRegister}/>}
         </>
     )
 }

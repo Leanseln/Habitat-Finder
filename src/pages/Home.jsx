@@ -9,14 +9,15 @@ import House7 from "../images/House7.jpg"
 import House8 from "../images/House8.jpg"
 import icon from "../images/Icon.png"
 import { BiSearchAlt } from "react-icons/bi";
+import HomeHeader from "../components/HomeHeader"
 
 
 
 const Home = () => {
     return (
         <> 
-        <Header />
-        <hr className="my-4 border-t border-black" />
+        <HomeHeader />
+        <div className="bg-[#FEECDB]">
         <div className="searchBarContainer">
             <div className="flex items-center justify-center">
             <img src={icon} alt="icon" className="w-16 h-16 mr-3"/>
@@ -66,7 +67,7 @@ const Home = () => {
             <section>
             <div className="container mx-auto mt-3 p-10">
             <p className="text-left mb-2 text-lg">Homes For Rent</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 <div className="card border border-gray-300  overflow-hidden">
                     <a href="#">
                         <img src={House1} alt="House 1"/>
@@ -191,6 +192,7 @@ const Home = () => {
             </div>
         </section>
 
+        </div>
         </div>
         </>
     )

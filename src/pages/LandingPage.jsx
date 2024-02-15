@@ -1,10 +1,11 @@
+import Header from "../components/Header"
 
 
 const LandingPage = () => {
     return (
         
         <>
-            
+        <Header />
             <div className="flex justify-center">
         <div className="bg-gray-200 p-6 rounded-lg text-center mt-8 transform -translate-y-10" style={{ width: '75%', transform: 'scaleY(1.1)' }}>
         <p className="text-5xl text-gray-800 font-semibold">

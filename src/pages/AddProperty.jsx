@@ -61,6 +61,7 @@ const AddProperty = () => {
             toast.error("Maximum 50 images are allowed");
             return;
         }
+        
 
         const storeImage = async(image) => {
             return new Promise((resolve, reject)=>{
@@ -120,7 +121,7 @@ const AddProperty = () => {
         const docRef = await addDoc(collection(db, "listings"), formDataCopy);
         setLoading(false);
         toast.success("Property Added Successfully");
-        navigate("/");
+        navigate("/");  
     }
 
     if(loading) {
