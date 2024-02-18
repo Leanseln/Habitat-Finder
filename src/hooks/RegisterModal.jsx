@@ -47,7 +47,7 @@ const RegisterModal = ({closeModal}) => {
             await setDoc(doc(db, "users", user.uid), formDataCopy)
             
             navigate("/")
-
+            console.log(auth)
         } catch(error) {
             toast.error("Email Already exist");
         }

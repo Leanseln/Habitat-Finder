@@ -9,7 +9,7 @@ const HomeHeader = () => {
     return (
         <>
         <header className='bg-[#EFC7A2]'>
-            <div className='flex items-center justify-between container mx-auto py-2 lg:px-24'>
+            <div className='flex items-center justify-between container mx-auto py-2 lg:px-10'>
                 <div className='flex justify-center text-center my-auto'>
                     <img src={LOGO} className='h-14 hover:scale-105' onClick={()=>navigate('/')} />
                 </div>

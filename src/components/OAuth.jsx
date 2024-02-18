@@ -3,6 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { db } from "../firebase";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 const OAuth = () => {
 
@@ -30,6 +31,7 @@ const OAuth = () => {
                 })
             }
             navigate('/')
+            console.log(auth)
         } catch (error) {
             toast.error("Could not authorized with Google");
         }

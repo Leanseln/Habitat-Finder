@@ -7,13 +7,12 @@ import SignUp from "./pages/SignUp"
 import ForgotPassword from "./pages/ForgotPassword"
 import LandingPage from "./pages/LandingPage"
 import { ToastContainer } from "react-toastify";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./hooks/PrivateRoute";
 import 'react-toastify/dist/ReactToastify.css';
 import AddProperty from "./pages/AddProperty"
 
 function App() {
   
-
   return (
     <>
       <BrowserRouter>

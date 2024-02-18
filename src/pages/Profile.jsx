@@ -1,27 +1,156 @@
-import React from 'react'
-import HomeHeader from '../components/HomeHeader'
+import { useEffect, useState } from 'react'
 import { getAuth } from 'firebase/auth'
-import { useNavigate } from 'react-router'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router';
+import { collection, getDocs, orderBy, query, where, deleteDoc, doc } from 'firebase/firestore';
+import { Link } from 'react-router-dom';
+import { db } from '../firebase';
+import PropertyCard from '../components/PropertyCard';
+import { toast } from 'react-toastify';
+import House from '../images/House1.jpg'
+import HomeHeader from '../components/HomeHeader'
+import { MdAddHome } from "react-icons/md";
+
 const Profile = () => {
 
-  const auth = getAuth();
-  const navigate = useNavigate();
+    const auth = getAuth();
+    const navigate = useNavigate();
+    const [listings, setListings] = useState(null);
+    const [changeDetail, setChangeDetail] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-  const onLogout = () => {
-    auth.signOut()
-    navigate('/landingpage')
-}
-  return (
-    <div>
-      <HomeHeader />
-      <div className='w-1/3 mx-auto flex justify-between'>
-        <button className='bg-blue-400 px-4 py-1 rounded-md'><Link to="/addproperty">Add Property</Link></button>
-        <button onClick={onLogout} className='bg-red-400 px-4 py-1 rounded-md'>Logout</button>
-      </div>
-      
-    </div>
-  )
+    const [formData, setFormData] = useState({
+        name: auth.currentUser.displayName,
+        email: auth.currentUser.email,
+        pp: auth.currentUser.photoURL
+    })
+
+    const { name, email, pp } = formData;
+
+    const onLogout = () => {
+        auth.signOut()
+        navigate('/signin')
+    }
+
+    const onChange = (e) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            [e.target.id]: e.target.value,
+        }))
+    }
+
+    const onDelete = async (listingID) => {
+        if (window.confirm("Are you sure about that?")) {
+            await deleteDoc(doc(db, "listings", listingID))
+            const updatedListings = listings.filter(
+                (listing) => listing.id !== listingID
+            );
+            setListings(updatedListings)
+            toast.success("Successfully Deleted")
+        }
+    }
+
+    const onEdit = (listingID) => {
+        navigate(`/editlisting/${listingID}`)
+    }
+
+
+    useEffect(() => {
+        const fetchUserListing = async () => {
+
+            const listingRef = collection(db, "listings");
+            const q = query(listingRef, where("userRef", "==", auth.currentUser.uid),
+                orderBy("timestamp", "desc")
+            );
+            const querySnap = await getDocs(q);
+            let listings = [];
+            querySnap.forEach((doc) => {
+                return listings.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
+            });
+            setListings(listings);
+            setLoading(false);
+        }
+        fetchUserListing();
+    }, [auth.currentUser.uid])
+
+    return (
+        <>
+        < HomeHeader />
+        <div className='bg-[#FEECDB] h-screen'>
+            <section className='max-w-6xl mx-auto flex justify-center items-center flex-col'>
+                <h1 className='text-3xl text-center mt-6 font-bold'>
+                    My Profile
+                </h1>
+                <div className='w-full md:[50%] mt-6 px-3'>
+                    
+                    <form className='flex'>
+                        
+                        <div className='w-[25%] flex justify-center items-center'>
+                            <input 
+                            type="image" 
+                            id='pp'
+                            value={pp}
+                            disabled={!changeDetail}
+                            onChange={onChange}
+                            className='w-[160px] h-[160px] rounded-full object-fill hover:scale-105' src={House} />
+                        </div>
+                        {/* name input */}
+                    <div className='pt-10 mb-10'>
+                        <label for="name" className='mb-2 text-sm font-medium text-gray-900 dark:text-white'>Name</label>
+                        <input
+                            type="name"
+                            id='name'
+                            value={name}
+                            disabled={!changeDetail}
+                            onChange={onChange}
+                            className={`w-full px-4 py-1 text-base text-gray-700 bg-[#EFC7A2] border-[1px] border-black transition ease-in-out mb-3 &&${changeDetail && "bg-red-200 focus:bg-red-200"}`} />
+
+                        {/* email input */}
+                        <label for="email" className='mb-2 text-sm font-medium text-gray-900 dark:text-white'>Email</label>
+                        <input
+                            type="email"
+                            id='email'
+                            value={email}
+                            disabled
+                            className='w-full px-4 py-1 text-base text-gray-700 bg-[#EFC7A2] border-[1px] border-black transition ease-in-out mb-3 ' />
+
+                        <div className='flex justify-between whitespace-nowrap text-sm sm:text-lg'>
+                            <p
+                                onClick={onLogout}
+                                className='text-blue-600 hover:text-blue-700 transition ease-in-out duration-200 cursor-pointer'>Sign out</p>
+                        </div>
+                    </div>
+                    </form>
+                    <button type='submit' className='w-92 bg-[#ce6c10] text-white uppercase px-7 py-2 text-sm font-medium rounded shadow-md hover:bg-[#BD5B00] transition duration-150 ease-in-out hover:shadow-lg active:bg-[#8a4300]'>
+                        <Link to="/addproperty" className='flex justify-center items-center'>
+                            <MdAddHome className='mr-2 text-3xl rounded-full p-1 border-2' /> Add Your Property
+                        </Link>
+                    </button>
+                </div>
+            </section>
+            <div className='max-w-6xl px-3 mt-6 mx-auto'>
+                {!loading && listings.length > 0 && (
+                    <>
+                        <h2 className='text-2xl text-center font-semibold mb-6'>My Property</h2>
+                        <ul className='sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-6 mb-6 space-x-3'>
+                            {listings.map((listing) => (
+                                <PropertyCard
+                                    key={listing.id}
+                                    id={listing.id}
+                                    listing={listing.data}
+                                    onDelete={() => onDelete(listing.id)}
+                                    onEdit={() => onEdit(listing.id)}
+                                />
+                            ))}
+                        </ul>
+                    </>
+                )}
+            </div>
+        </div>
+        </>
+    )
 }
 
 export default Profile

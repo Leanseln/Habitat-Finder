@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Loading from '../components/Loading'
+import Loading from '../hooks/Loading'
 import { toast } from 'react-toastify'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getAuth } from 'firebase/auth';

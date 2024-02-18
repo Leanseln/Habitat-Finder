@@ -33,7 +33,9 @@ const LoginModal = ({closeModal}) => {
 
             if(userCredentials.user) {
                 navigate('/')
+                
             }
+            console.log(auth)
         } catch (error) {
             toast.error("Invalid Credentials");
         }
