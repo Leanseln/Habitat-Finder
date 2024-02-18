@@ -9,7 +9,7 @@ export default function PropertyCard({ listing, id, onDelete, onEdit }) {
     const result = moment(listing.timestamp?.toDate()).fromNow();
     
     return (
-        <li className='relative bg-gray-100 flex flex-col justify-between items-center shadow-md hover:shadow-xl rounded-md overflow-hidden'>
+        <li className='relative bg-[#ffd7b1] flex flex-col justify-between items-center shadow-md hover:shadow-xl rounded-md overflow-hidden'>
             <Link className='contents' to={`/category/${listing.type}/${id}`}>
                 <img src={listing.imgUrls[0]} 
                 alt=""

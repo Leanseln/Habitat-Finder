@@ -11,7 +11,7 @@ const Header = () => {
 
     return (
         <>
-            <header className='bg-[#EFC7A2]'>
+            <header className='bg-[#ffd7b1]'>
                 <div className='flex items-center justify-between container mx-auto py-2 lg:px-24'>
                 <div>
                     <img src={LOGO} className='h-12 hover:scale-105' />
@@ -19,12 +19,12 @@ const Header = () => {
 
                 <div>
                     <ul className='flex space-x-10'>
-                        <li className='text-sm font-semibold text-gray-800 border-b-[3px] border-b-transparent cursor-pointer hover:scale-105 hover:text-[#BD5B00] transition ease-in-out'
+                        <li className='text-sm lg:text-lg font-semibold text-gray-800 border-b-[3px] border-b-transparent cursor-pointer hover:scale-105 hover:text-[#BD5B00] transition ease-in-out'
                         onClick={() => setShowModalLogin(true)}>
                             Login
                         </li>
 
-                        <li className='text-sm font-semibold text-gray-800 border-b-[3px] border-b-transparent cursor-pointer hover:scale-105 hover:text-[#BD5B00] transition ease-in-out'
+                        <li className='text-sm lg:text-lg font-semibold text-gray-800 border-b-[3px] border-b-transparent cursor-pointer hover:scale-105 hover:text-[#BD5B00] transition ease-in-out'
                         onClick={() => setShowModalRegister(true)}>
                             Register
                         </li>

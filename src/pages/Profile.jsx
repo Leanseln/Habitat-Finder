@@ -116,7 +116,7 @@ const Profile = () => {
                             disabled
                             className='w-full px-4 py-1 text-base text-gray-700 bg-[#EFC7A2] border-[1px] border-black transition ease-in-out mb-3 ' />
 
-                        <div className='flex justify-between whitespace-nowrap text-sm sm:text-lg'>
+                        <div className='flex justify-end text-sm sm:text-lg'>
                             <p
                                 onClick={onLogout}
                                 className='text-blue-600 hover:text-blue-700 transition ease-in-out duration-200 cursor-pointer'>Sign out</p>

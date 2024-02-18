@@ -113,8 +113,7 @@ const RegisterModal = ({closeModal}) => {
                         </div> 
                         
                         <OAuth />
-
-                        <p className="text-sm mb-6">Already have an account? <Link to="/signin" className=" font-bold text-blue-800 hover:text-blue-400">Sign In here</Link></p>
+                        
                     </form>
             </div>
         </div>

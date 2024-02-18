@@ -4,13 +4,16 @@ import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import OAuth from '../components/OAuth'
 import { toast } from 'react-toastify';
+import RegisterModal from './RegisterModal';
 
 const LoginModal = ({closeModal}) => {
 
     const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
-
+    const [showModalLogin, setShowModalLogin] = useState(true);
+    const [showModalRegister, setShowModalRegister] = useState(false);
+    
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -39,6 +42,11 @@ const LoginModal = ({closeModal}) => {
         } catch (error) {
             toast.error("Invalid Credentials");
         }
+    }
+
+    const showRegisterModal = () => {
+        setShowModalLogin(false)
+        setShowModalRegister(true)
     }
 
     return (
@@ -102,14 +110,13 @@ const LoginModal = ({closeModal}) => {
                                 <p className='font-semibold text-[10px] md:text-[12px] lg:text-sm'>OR</p>
                             </div> 
                             <OAuth />
-                            <p className='mb-6 text-[10px] md:text-[12px] lg:text-sm'>Don't have an account
-                                    <Link to="/signup" className='text-blue-800 hover:text-blue-400  transition duration-200 ease-in-out ml-1'> Register</Link>
-                                </p>
+                            
                         </form>
                     </div>
                 </div>
             </div>
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+            
             </>
     )
 }
