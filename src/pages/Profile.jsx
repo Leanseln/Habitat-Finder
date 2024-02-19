@@ -10,6 +10,7 @@ import House from '../images/House1.jpg'
 import HomeHeader from '../components/HomeHeader'
 import { MdAddHome } from "react-icons/md";
 import AddPropertyModal from '../components/AddPropertyModal';
+import EditPropertyModal from '../components/EditPropertyModal';
 
 const Profile = () => {
 
@@ -19,6 +20,7 @@ const Profile = () => {
     const [changeDetail, setChangeDetail] = useState(false);
     const [loading, setLoading] = useState(true);
     const [showPropertyModal, setShowPropertyModal] = useState(false);
+    const [showEditPropertyModal, setShowEditPropertyModal] = useState(false);
 
     const [formData, setFormData] = useState({
         name: auth.currentUser.displayName,
@@ -152,6 +154,7 @@ const Profile = () => {
                 )}
             </div>
             {showPropertyModal && <AddPropertyModal closeModal={setShowPropertyModal} />}
+            {showEditPropertyModal && <EditPropertyModal closeModal={setShowEditPropertyModal} />}
         </div>
         </>
     )

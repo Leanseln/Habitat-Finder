@@ -16,6 +16,7 @@ const AddProperty = () => {
 
     const [formData, setFormData] = useState({
 
+        type: "rent",
         name: "",
         bedrooms: 1,
         bathrooms: 1,
@@ -30,6 +31,7 @@ const AddProperty = () => {
 
     const {
         
+        type,
         name, 
         bedrooms, 
         bathrooms, 
@@ -148,7 +150,15 @@ const AddProperty = () => {
             </h1>
             <form onSubmit={onSubmit}>
                 <p className='text-sm md:text-base mt-6 font-semibold'>Add Your Home</p>
-                
+
+                    <button 
+                        type='button' 
+                        id='type' 
+                        value={true}
+                        onClick={onChange}
+                        className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${ !parking ? "bg-white text-black" : "bg-slate-600 text-white"}`}
+                    >Rent</button>
+
                 <p className='text-sm md:text-lg mt-6 font-semibold'>Name</p>
                 <input 
                     type="text" 

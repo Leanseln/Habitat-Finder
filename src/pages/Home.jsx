@@ -10,10 +10,49 @@ import House8 from "../images/House8.jpg"
 import icon from "../images/Icon.png"
 import { BiSearchAlt } from "react-icons/bi";
 import HomeHeader from "../components/HomeHeader"
+import { useEffect, useState } from "react"
+import { collection, getDoc, getDocs, limit, orderBy, query, where } from "firebase/firestore"
+import { db } from "../firebase"
+import PropertyCard from "../components/PropertyCard"
+import { getAuth } from "firebase/auth"
 
 
 
 const Home = () => {
+
+    const auth = getAuth();
+    const [loading, setLoading] = useState(true);
+    const [rentListings, setRentListings] = useState(null);
+
+    useEffect(() => {
+        async function fetchListings() {
+        try {
+            // get reference
+            const listingsRef = collection(db, "listings");
+            // create the query
+            const q = query(
+            listingsRef,
+            where("type", "==", "rent"),
+            orderBy("timestamp", "desc"),
+            limit(4)
+            );
+            // execute the query
+            const querySnap = await getDocs(q);
+            const listings = [];
+            querySnap.forEach((doc) => {
+            return listings.push({
+                id: doc.id,
+                data: doc.data(),
+            });
+            });
+            setRentListings(listings);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchListings();
+    }, []);
+    
     return (
         <> 
         <HomeHeader />
@@ -65,131 +104,27 @@ const Home = () => {
         <div>
     
             <section>
-            <div className="container mx-auto mt-3 p-10">
-            <p className="text-left mb-2 text-lg">Homes For Rent</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                <div className="card border border-gray-300  overflow-hidden">
-                    <a href="#">
-                        <img src={House1} alt="House 1"/>
-                    </a>
-                    <p className="description items-center text-sm px-2 bg-zinc-100">
-                    Caloocan City
-                    <br/>
-                    2Bd | 1 Bath |1200 Sqft
-                    <br/>
-                    P5,000 Month
-                    </p>
-                </div>
-                <div className="card border border-gray-300 overflow-hidden">
-                    <a href="#">
-                        <img src={House2} alt="House 2"/>
-                    </a>
-                    <p className="description items-center text-sm px-2 bg-zinc-100">
-                    Caloocan City
-                    <br/>
-                    2Bd | 1 Bath |1200 Sqft
-                    <br/>
-                    P5,000 Month
-                    </p>
-                </div>
-                <div className="card border border-gray-300 overflow-hiddend">
-                    <a href="#">
-                        <img src={House3} alt="House 3"/>
-                    </a>
-                    <p className="description items-center text-sm px-2 bg-zinc-100">
-                    Caloocan City
-                    <br/>
-                    2Bd | 1 Bath |1200 Sqft
-                    <br/>
-                    P5,000 Month
-                    </p>
-                </div>
-                <div className="card border border-gray-300 overflow-hidden">
-                    <a href="#">
-                        <img src={House4} alt="House 4"/>
-                    </a>
-                    <p class="description items-center text-sm px-2 bg-zinc-100">
-                    Caloocan City
-                    <br/>
-                    2Bd | 1 Bath |1200 Sqft
-                    <br/>
-                    P5,000 Month
-                    </p>
-                    </div>
-                    <div className="card border border-gray-300  overflow-hidden">
-                    <a href="#">
-                        <img src={House5} alt="House 5"/>
-                    </a>
-                    <p className="description items-center text-sm px-2 bg-zinc-100">
-                    Caloocan City
-                    <br/>
-                    2Bd | 1 Bath |1200 Sqft
-                    <br/>
-                    P5,000 Month
-                    </p>
-                    </div>
-                <div className="card border border-gray-300 overflow-hidden">
-                    <a href="#">
-                        <img src={House6} alt="House 6"/>
-                    </a>
-                    <p className="description items-center text-sm px-2 bg-zinc-100">
-                    Caloocan City
-                    <br/>
-                    2Bd | 1 Bath |1200 Sqft
-                    <br/>
-                    P5,000 Month
-                    </p>
-                    </div>
-                <div className="card border border-gray-300 overflow-hidden">
-                    <a href="#">
-                        <img src={House7} alt="House 7"/>
-                    </a>
-                    <p className="description items-center text-sm px-2 bg-zinc-100">
-                    Caloocan City
-                    <br/>
-                    2Bd | 1 Bath |1200 Sqft
-                    <br/>
-                    P5,000 Month
-                    </p>
-                </div>
-                <div className="card border border-gray-300 overflow-hidden">
-                    <a href="#">
-                        <img src={House8} alt="House 8"/>
-                    </a>
-                    <p className="description items-center text-sm px-2 bg-zinc-100">
-                    Caloocan City
-                    <br/>
-                    2Bd | 1 Bath |1200 Sqft
-                    <br/>
-                    P5,000 Month
-                    </p>
-                </div>
-                <div className="card border border-gray-300 overflow-hidden">
-                    <a href="#">
-                        <img src={House8} alt="House 8"/>
-                    </a>
-                    <p className="description items-center text-sm px-2 bg-zinc-100">
-                    Caloocan City
-                    <br/>
-                    2Bd | 1 Bath |1200 Sqft
-                    <br/>
-                    P5,000 Month
-                    </p>
-                </div>
-                <div className="card border border-gray-300 overflow-hidden">
-                    <a href="#">
-                        <img src={House8} alt="House 8"/>
-                    </a>
-                    <p className="description items-center text-sm px-2 bg-zinc-100">
-                    Caloocan City
-                    <br/>
-                    2Bd | 1 Bath |1200 Sqft
-                    <br/>
-                    P5,000 Month
-                    </p>
-                </div>
+            
+            
+            <div className="max-w-6xl mx-auto pt-4 space-y-6 ">
+            {rentListings && rentListings.length > 0 && (
+            <div className="m-2 mb-6">
+                <h2 className="px-3 text-2xl mt-6 font-semibold">
+                Places for rent
+                </h2>
+                
+                <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {rentListings.map((listing) => (
+                    <PropertyCard
+                    key={listing.id}
+                    listing={listing.data}
+                    id={listing.id}
+                    />
+                ))}
+                </ul>
             </div>
-            </div>
+        )}
+        </div>
         </section>
 
         </div>

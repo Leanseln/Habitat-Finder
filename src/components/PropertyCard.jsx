@@ -30,7 +30,7 @@ export default function PropertyCard({ listing, id, onDelete, onEdit }) {
                                 {listing.bedrooms > 1 ? `${listing.bedrooms} Beds` : "1 Bed"}
                             </p>
                         </div>
-                        <p className='text-sm'>|</p>
+                        <p className='text-sm text-amber-700'>|</p>
                         <div className="flex items-center space-x-1">
                         <p className='font-semibold text-xs text-amber-700'>
                             {listing.bathrooms > 1 ? `${listing.bathrooms} Baths` : "1 Bath"}
@@ -39,8 +39,7 @@ export default function PropertyCard({ listing, id, onDelete, onEdit }) {
                     </div>
                     
                     <p className='text-[#A54A36] mt-2 font-semibold'>₱{listing.Price 
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} / month
+                        }  / month
                     </p>
 
                     

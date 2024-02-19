@@ -1,20 +1,20 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Loading from '../hooks/Loading'
 import { toast } from 'react-toastify'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getAuth } from 'firebase/auth';
 import { v4 as uuidv4} from "uuid";
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, updateDoc, doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useNavigate } from 'react-router';
 
 
-const AddPropertyModal = ({closeModal}) => {
+const EditPropertyModal = ({closeModal}) => {
 
     const auth = getAuth()
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
-
+    const [listing, setListing] = useState(null)
 
     const [formData, setFormData] = useState({
 
@@ -23,10 +23,8 @@ const AddPropertyModal = ({closeModal}) => {
         bedrooms: 1,
         bathrooms: 1,
         address: '',
-        city: '',
-        floorArea: 0,
-        parking: false,
         description: '',
+        city: '',
         Price: 0,
         images: {},
     });
@@ -35,25 +33,42 @@ const AddPropertyModal = ({closeModal}) => {
         type,
         name, 
         bedrooms, 
+        city,
         bathrooms, 
         address, 
-        floorArea,
-        city,
-        parking,
         description, 
         Price, 
         images } = formData;
 
+
+    const params = useParams()
+
+    useEffect(()=>{
+        if(listing && listing.userRef !== auth.currentUser.uid){
+            toast.error("You cannot edit this listing")
+            navigate("/")
+        }
+    }, [listing, navigate])
+
+    useEffect(() => {
+        setLoading(true);
+        async function fetchListing() {
+            const docRef = doc(db, "listings", params.listingId)
+            const docSnap = await getDoc(docRef);
+            if(docSnap.exists()){
+                setListing(docSnap.data());
+                setFormData({...docSnap.data()})
+                setLoading(false)
+            }else {
+                navigate('/')
+                toast.error("Listing does not exist")
+            }
+        }
+        fetchListing()
+    }, [navigate, params.listingId])
+
     const onChange = (e) => {
-        let boolean = null;
-
-        if(e.target.value === "true"){
-            boolean = true;
-        }
-        if(e.target.value === "false"){
-            boolean = false;
-        }
-
+    
         if(e.target.files){
             setFormData((prevState) =>({
                 ...prevState,
@@ -63,7 +78,7 @@ const AddPropertyModal = ({closeModal}) => {
         if(!e.target.files){
             setFormData((prevState)=>({
                 ...prevState,
-                [e.target.id]: boolean ?? e.target.value,
+                [e.target.id]: e.target.value,
             }));
         }
     }
@@ -135,17 +150,23 @@ const AddPropertyModal = ({closeModal}) => {
             userRef: auth.currentUser.uid
         };
         delete formDataCopy.images;
-        const docRef = await addDoc(collection(db, "listings"), formDataCopy);
+
+        const docRef = doc(db, "listings", params.listingId);
+
+        await updateDoc(docRef, formDataCopy);
         setLoading(false);
-        toast.success("Property Added Successfully");
-        navigate("/profile");
+        toast.success("Property Updated");
+        navigate("/profile");  
     }
 
+    if(loading) {
+        return <Loading />
+    }
 
     return (
         <div className=''>
             <div className="items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                <div className="relative sm:w-[400px] md:w-[450px] lg:min-w-[500px] lg:max-w-[500px] mt-12 mx-auto">
+                <div className="relative sm:w-[400px] md:w-[450px] lg:min-w-[500px] lg:max-w-[500px] my-6 mx-auto">
                     {/*content*/}
                     <div className="bg-[#EFC7A2] border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none px-8">
                         {/*header*/}
@@ -321,8 +342,7 @@ const AddPropertyModal = ({closeModal}) => {
                         />
                 </div>
 
-                <button type='submit' className='mb-6 w-full px-7 py-3 bg-[#ce6c10] text-white font-medium text-sm uppercase rounded shadow-md hover:bg-[#BD5B00] hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-[#8a4300] active:shadow-lg transition duration-150 ease-in-out'
-                >Add Property</button>
+                <button type='submit' className='mb-6 w-full px-7 py-3 bg-[#ce6c10] text-white font-medium text-sm uppercase rounded shadow-md hover:bg-[#BD5B00] hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-[#8a4300] active:shadow-lg transition duration-150 ease-in-out'>Add Property</button>
             </form>
                     </div>
                 </div>
@@ -334,4 +354,4 @@ const AddPropertyModal = ({closeModal}) => {
     )
 }
 
-export default AddPropertyModal
+export default EditPropertyModal
