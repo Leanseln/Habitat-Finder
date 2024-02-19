@@ -11,8 +11,6 @@ const LoginModal = ({closeModal}) => {
     const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
-    const [showModalLogin, setShowModalLogin] = useState(true);
-    const [showModalRegister, setShowModalRegister] = useState(false);
     
     const [formData, setFormData] = useState({
         email: "",
@@ -42,11 +40,6 @@ const LoginModal = ({closeModal}) => {
         } catch (error) {
             toast.error("Invalid Credentials");
         }
-    }
-
-    const showRegisterModal = () => {
-        setShowModalLogin(false)
-        setShowModalRegister(true)
     }
 
     return (

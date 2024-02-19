@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import House from '../images/House1.jpg'
 import HomeHeader from '../components/HomeHeader'
 import { MdAddHome } from "react-icons/md";
+import AddPropertyModal from '../components/AddPropertyModal';
 
 const Profile = () => {
 
@@ -17,6 +18,7 @@ const Profile = () => {
     const [listings, setListings] = useState(null);
     const [changeDetail, setChangeDetail] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [showPropertyModal, setShowPropertyModal] = useState(false);
 
     const [formData, setFormData] = useState({
         name: auth.currentUser.displayName,
@@ -28,7 +30,7 @@ const Profile = () => {
 
     const onLogout = () => {
         auth.signOut()
-        navigate('/signin')
+        navigate('/landingpage')
     }
 
     const onChange = (e) => {
@@ -50,7 +52,7 @@ const Profile = () => {
     }
 
     const onEdit = (listingID) => {
-        navigate(`/editlisting/${listingID}`)
+        navigate(`/editproperty/${listingID}`)
     }
 
 
@@ -78,7 +80,7 @@ const Profile = () => {
     return (
         <>
         < HomeHeader />
-        <div className='bg-[#FEECDB] h-screen'>
+        <div className='bg-[#FEECDB] min-h-[100vh]'>
             <section className='max-w-6xl mx-auto flex justify-center items-center flex-col'>
                 <h1 className='text-3xl text-center mt-6 font-bold'>
                     My Profile
@@ -123,10 +125,11 @@ const Profile = () => {
                         </div>
                     </div>
                     </form>
-                    <button type='submit' className='w-92 bg-[#ce6c10] text-white uppercase px-7 py-2 text-sm font-medium rounded shadow-md hover:bg-[#BD5B00] transition duration-150 ease-in-out hover:shadow-lg active:bg-[#8a4300]'>
-                        <Link to="/addproperty" className='flex justify-center items-center'>
+                    <button type='submit' className='w-92 bg-[#ce6c10] text-white uppercase px-7 py-2 text-sm font-medium rounded shadow-md hover:bg-[#BD5B00] transition duration-150 ease-in-out hover:shadow-lg active:bg-[#8a4300] flex justify-center items-center'
+                    onClick={()=> setShowPropertyModal(true)}>
+                        
                             <MdAddHome className='mr-2 text-3xl rounded-full p-1 border-2' /> Add Your Property
-                        </Link>
+                        
                     </button>
                 </div>
             </section>
@@ -134,7 +137,7 @@ const Profile = () => {
                 {!loading && listings.length > 0 && (
                     <>
                         <h2 className='text-2xl text-start font-semibold mb-6'>My Property</h2>
-                        <ul className='sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-6 mb-6 space-x-3'>
+                        <ul className='grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-6 mb-6 gap-4'>
                             {listings.map((listing) => (
                                 <PropertyCard
                                     key={listing.id}
@@ -148,6 +151,7 @@ const Profile = () => {
                     </>
                 )}
             </div>
+            {showPropertyModal && <AddPropertyModal closeModal={setShowPropertyModal} />}
         </div>
         </>
     )

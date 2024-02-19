@@ -8,11 +8,13 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useNavigate } from 'react-router';
 
-const AddProperty = () => {
+
+const AddPropertyModal = ({closeModal}) => {
 
     const auth = getAuth()
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
+
 
     const [formData, setFormData] = useState({
 
@@ -141,13 +143,28 @@ const AddProperty = () => {
     if(loading) {
         return <Loading />
     }
+
     return (
-        <main className='max-w-md mx-auto p-10 shadow-lg mt-10'>
-            <h1 className='text-3xl text-center mt-6 font-bold'>
-                Add Property
-            </h1>
-            <form onSubmit={onSubmit}>
-                <p className='text-sm md:text-base mt-6 font-semibold'>Add Your Home</p>
+        <div className=''>
+            <div className="items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                <div className="relative sm:w-[400px] md:w-[450px] lg:min-w-[500px] lg:max-w-[500px] my-6 mx-auto">
+                    {/*content*/}
+                    <div className="bg-[#EFC7A2] border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none px-8">
+                        {/*header*/}
+                        <div className="flex items-center justify-between mx-auto py-5">
+                        <h3 className="text-3xl font-bold text-[#4B2C1A]">
+                            Add Your Property
+                        </h3>
+                        <button
+                            className="p-1 text-black text-sm leading-none font-semibold  absolute right-2 top-0"
+                            onClick={() => closeModal(false)}>
+                            <span className="text-black text-xl block outline-none focus:outline-none">
+                            X
+                            </span>
+                        </button>
+                        </div>
+                    {/*body*/}
+                    <form onSubmit={onSubmit}>
                 
                 <p className='text-sm md:text-lg mt-6 font-semibold'>Name</p>
                 <input 
@@ -219,7 +236,7 @@ const AddProperty = () => {
                     onChange={onChange}
                     placeholder='Description'
                     required
-                    className="w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600"
+                    className="w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 whitespace-pre-line"
                 />
 
                 <p className='text-lg mt-6 font-semibold'>Parking Spot</p>
@@ -229,7 +246,7 @@ const AddProperty = () => {
                         id='parking' 
                         value={true}
                         onClick={onChange}
-                        className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${ !parking ? "bg-white text-black" : "bg-slate-600 text-white"}`}
+                        className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${ !parking ? "bg-white text-black" : "bg-[#ce6c10] text-white"}`}
                     >Yes</button>
 
                     <button 
@@ -237,7 +254,7 @@ const AddProperty = () => {
                         id='parking' 
                         value={false}
                         onClick={onChange}
-                        className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${ parking ? "bg-white text-black" : "bg-slate-600 text-white"}`}
+                        className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${ parking ? "bg-white text-black" : "bg-[#ce6c10] text-white"}`}
                     >No</button>
                 </div>
 
@@ -257,7 +274,7 @@ const AddProperty = () => {
                             required
                             className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
                             />
-                            <p>SquareMeter</p>
+                            <p>Sqft</p>
                         </div>
                         
                     </div>
@@ -278,7 +295,7 @@ const AddProperty = () => {
                             required
                             className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
                             />
-                            <p> /Month</p>
+                            <p> Month</p>
                         </div>
                         
                     </div>
@@ -298,10 +315,16 @@ const AddProperty = () => {
                         />
                 </div>
 
-                <button type='submit' className='mb-6 w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Add Property</button>
+                <button type='submit' className='mb-6 w-full px-7 py-3 bg-[#ce6c10] text-white font-medium text-sm uppercase rounded shadow-md hover:bg-[#BD5B00] hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-[#8a4300] active:shadow-lg transition duration-150 ease-in-out'>Add Property</button>
             </form>
-        </main>
+                    </div>
+                </div>
+            </div>
+            
+            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+            
+        </div>
     )
 }
 
-export default AddProperty
+export default AddPropertyModal
