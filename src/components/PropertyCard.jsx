@@ -38,7 +38,8 @@ export default function PropertyCard({ listing, id, onDelete, onEdit }) {
                         </div>
                     </div>
                     
-                    <p className='text-[#A54A36] mt-2 font-semibold'>₱{listing.Price 
+                    <p className='text-[#A54A36] mt-2 font-semibold'>₱{listing.Price
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",") 
                         }  / month
                     </p>
 

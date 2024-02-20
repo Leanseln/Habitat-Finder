@@ -11,6 +11,7 @@ import HomeHeader from '../components/HomeHeader'
 import { MdAddHome } from "react-icons/md";
 import AddPropertyModal from '../components/AddPropertyModal';
 import EditPropertyModal from '../components/EditPropertyModal';
+import Avatar from '../images/avatar.png'
 
 const Profile = () => {
 
@@ -98,7 +99,7 @@ const Profile = () => {
                             value={pp}
                             disabled={!changeDetail}
                             onChange={onChange}
-                            className='w-[160px] h-[160px] rounded-full object-fill hover:scale-105' src={House} />
+                            className='w-[160px] h-[160px] rounded-full object-cover hover:scale-105' src={Avatar} />
                         </div>
                         {/* name input */}
                     <div className='pt-10 mb-10'>
