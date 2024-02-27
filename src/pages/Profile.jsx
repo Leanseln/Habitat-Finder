@@ -11,7 +11,8 @@ import HomeHeader from '../components/HomeHeader'
 import { MdAddHome } from "react-icons/md";
 import AddPropertyModal from '../components/AddPropertyModal';
 import EditPropertyModal from '../components/EditPropertyModal';
-import Avatar from '../images/avatar.png'
+import PP from '../images/profile.png'
+import { TbEdit } from "react-icons/tb";
 
 const Profile = () => {
 
@@ -26,10 +27,10 @@ const Profile = () => {
     const [formData, setFormData] = useState({
         name: auth.currentUser.displayName,
         email: auth.currentUser.email,
-        pp: auth.currentUser.photoURL
+        photo: auth.currentUser.photoURL
     })
 
-    const { name, email, pp } = formData;
+    const { name, email, photo } = formData;
 
     const onLogout = () => {
         auth.signOut()
@@ -37,11 +38,43 @@ const Profile = () => {
     }
 
     const onChange = (e) => {
-        setFormData((prevState) => ({
-            ...prevState,
-            [e.target.id]: e.target.value,
-        }))
+
+        if(e.target.files){
+            setFormData((prevState) =>({
+                ...prevState,
+                images: e.target.files
+            }));
+        }
+        if(!e.target.files){
+            setFormData((prevState)=>({
+                ...prevState,
+                [e.target.id]: e.target.value,
+            }));
+        }
     }
+
+    async function onSubmit() {
+        try {
+            if (auth.currentUser.displayName !== name) {
+                //update display name in firebase auth
+                await updateProfile(auth.currentUser, {
+                displayName: name,
+                photoURL: photo,
+                });
+        
+                // update name in the firestore
+        
+                const docRef = doc(db, "users", auth.currentUser.uid);
+                await updateDoc(docRef, {
+                name,
+                photoURL,
+                });
+            }
+            toast.success("Profile details updated");
+            } catch (error) {
+            toast.error("Could not update the profile details");
+            }
+        }
 
     const onDelete = async (listingID) => {
         if (window.confirm("Are you sure about that?")) {
@@ -91,18 +124,19 @@ const Profile = () => {
                 <div className='w-full md:[50%] mt-6 px-3'>
                     
                     <form className='flex'>
-                        
-                        <div className='w-[25%] flex justify-center items-center'>
-                            <input 
-                            type="image" 
-                            id='pp'
-                            value={pp}
+                        <div className='w-[25%] flex justify-center items-center relative'>
+                            <div className='relative'>
+                            <img src={photo ?? PP} 
+                            alt='Profile Picture'
+                            id='photo'
                             disabled={!changeDetail}
                             onChange={onChange}
-                            className='w-[160px] h-[160px] rounded-full object-cover hover:scale-105' src={Avatar} />
+                            className='w-[160px] h-[160px] rounded-full object-cover hover:scale-105' />
+                            <TbEdit size={20} className='absolute hidden right-3 bottom-4 text-amber-1000 hover:scale-105 cursor-pointer'/>
+                        </div>
                         </div>
                         {/* name input */}
-                    <div className='pt-10 mb-10'>
+                        <div className='pt-10 mb-10'>
                         <label for="name" className='mb-2 text-sm font-medium text-gray-900 dark:text-white'>Name</label>
                         <input
                             type="name"
@@ -126,6 +160,7 @@ const Profile = () => {
                                 onClick={onLogout}
                                 className='text-blue-600 hover:text-blue-700 transition ease-in-out duration-200 cursor-pointer'>Sign out</p>
                         </div>
+                        
                     </div>
                     </form>
                     <button type='submit' className='w-92 bg-[#ce6c10] text-white uppercase px-7 py-2 text-sm font-medium rounded shadow-md hover:bg-[#BD5B00] transition duration-150 ease-in-out hover:shadow-lg active:bg-[#8a4300] flex justify-center items-center'

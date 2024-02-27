@@ -27,6 +27,7 @@ const OAuth = () => {
                 await setDoc(docRef, {
                     name: user.displayName,
                     email: user.email,
+                    photo: user.photoURL,
                     timestamp: serverTimestamp(),
                 })
             }

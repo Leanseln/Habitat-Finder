@@ -67,8 +67,8 @@ const Home = () => {
         <hr className="my-4 border-t border-black" />
         <div className="container mx-auto mt-4">
             <div className="flex space-x-4 overflow-hidden sm:ml-20">
-                <div className="">
-                <select name="Price" className="block mt-1 w-full bg-[#ffd7b1] py-0 rounded">
+                <div>
+                <select name="Price" className="block mt-1 w-full bg-[#ffd7b1] py-1 rounded-md ">
                     <option className="text-center">Price</option>
                     <option value="option1">2,000 - 4,000</option>
                     <option value="option2">5,000 - 7,000</option>
@@ -76,7 +76,7 @@ const Home = () => {
                 </select>
                 </div>
                 <div>
-                <select name="Bedroom" className="block mt-1 w-full bg-[#ffd7b1] px-1 py-0 rounded-sm">
+                <select name="Bedroom" className="block mt-1 w-full bg-[#ffd7b1] px-1 py-1 rounded-md">
                     <option className="text-center">Bedroom</option>
                     <option value="option1">1 - 3</option>
                     <option value="option2">4 - 8</option>
@@ -84,7 +84,7 @@ const Home = () => {
                 </select>
                 </div>
                 <div>
-                <select name="Guest" className="block mt-1 w-full bg-[#ffd7b1] px-1 py-0 rounded-sm">
+                <select name="Guest" className="block mt-1 w-full bg-[#ffd7b1] px-1 py-1 rounded-md">
                     <option className="text-center">Guest</option>
                     <option value="option1">1 - 3</option>
                     <option value="option2">4 - 8</option>

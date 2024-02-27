@@ -4,14 +4,18 @@ import h1 from "../pages/imgs/h1.jpg"
 import h2 from "../pages/imgs/h2.jpg"
 import h3 from "../pages/imgs/h3.jpg"
 import Header from "../components/Header"
-import LoginModal from "../hooks/LoginModal"
-import { useState } from "react"
+import LoginModal from "../components/LoginModal"
+import RegisterModal from "../components/RegisterModal"
+import ForgotPassword from "../components/ForgotPassword"
+import { useEffect, useState } from "react"
 import { CgArrowLongRight } from "react-icons/cg";
 
 
 const LandingPage = () => {
 
     const [showModalLogin, setShowModalLogin] = useState(false);
+    const [showModalRegister, setShowModalRegister] = useState(false);
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
 
     return (
 
@@ -105,7 +109,9 @@ const LandingPage = () => {
         </div>
         </div>
     </div>
-    {showModalLogin && <LoginModal closeModal={setShowModalLogin} />}
+        {showModalLogin && <LoginModal closeModalLogin={() => setShowModalLogin(false)} openModalRegister={() => setShowModalRegister(true)} openForgotPassword={() => setShowForgotPassword(true)} />}
+        {showModalRegister && <RegisterModal closeModalRegister={() => setShowModalRegister(false)} openModalLogin={() => setShowModalLogin(true)} />}
+        {showForgotPassword && <ForgotPassword closeForgotPassword={() => setShowForgotPassword(false)} openModalRegister={() => setShowModalRegister(true)} openModalLogin={() => setShowModalLogin(true)} />}
         </>
     )
 }

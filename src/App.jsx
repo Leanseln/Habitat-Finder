@@ -3,14 +3,16 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import ForgotPassword from "./pages/ForgotPassword";
+import ForgotPassword from "./components/ForgotPassword";
 import LandingPage from "./pages/LandingPage";
 import { ToastContainer } from "react-toastify";
-import PrivateRoute from "./hooks/PrivateRoute";
+import PrivateRoute from "./components/PrivateRoute";
 import 'react-toastify/dist/ReactToastify.css';
 import AddProperty from "./pages/AddProperty";
 import PropertyDetailPage from "./pages/PropertyDetailPage";
 import EditProperty from "./pages/EditProperty";
+import VerifyPage from "./components/VerifyPage";
+
 
 function App() {
   
@@ -27,7 +29,7 @@ function App() {
           </Route>
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/pending" element={<VerifyPage />} />
           <Route path="/landingpage" element={<LandingPage />} />
           <Route path="/addproperty" element={<PrivateRoute />}>
             <Route path="/addproperty" element={<AddProperty />} />

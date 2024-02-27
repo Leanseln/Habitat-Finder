@@ -1,12 +1,11 @@
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
-import OAuth from '../components/OAuth'
+import OAuth from './OAuth'
 import { toast } from 'react-toastify';
-import RegisterModal from './RegisterModal';
 
-const LoginModal = ({closeModal}) => {
+const LoginModal = ({closeModalLogin, openModalRegister, openForgotPassword}) => {
 
     const navigate = useNavigate();
 
@@ -20,7 +19,7 @@ const LoginModal = ({closeModal}) => {
     const {email, password} = formData;
 
     const onChange = (e) => {
-        setFormData((prevState)=> ({
+        setFormData((prevState) => ({
             ...prevState,
             [e.target.id]: e.target.value,
         }));
@@ -31,16 +30,28 @@ const LoginModal = ({closeModal}) => {
         try {
             const auth = getAuth();
             const userCredentials = await signInWithEmailAndPassword(auth, email, password);
-
+            
             if(userCredentials.user) {
-                navigate('/')
-                
+                if(auth.currentUser.emailVerified){
+                    navigate('/');
+                    
+                    console.log(auth)
+                    
+                } else {
+                    setFormData({
+                    email: "",
+                    password: "",
+                })
+                closeModalLogin()
+                navigate('/pending');
+                }
             }
             console.log(auth)
         } catch (error) {
             toast.error("Invalid Credentials");
         }
     }
+
 
     return (
             <>
@@ -55,7 +66,7 @@ const LoginModal = ({closeModal}) => {
                         </h3>
                         <button
                             className="p-1 text-black text-sm leading-none font-semibold  absolute right-2 top-0"
-                            onClick={() => closeModal(false)}>
+                            onClick={closeModalLogin}>
                             <span className="text-black text-xl block outline-none focus:outline-none">
                             X
                             </span>
@@ -94,7 +105,11 @@ const LoginModal = ({closeModal}) => {
                             </div>
                             <div className='flex justify-end text-sm w-full mb-3'>
                                 <p className='text-[10px] md:text-[12px] lg:text-sm'>
-                                    <Link to="/forgotpassword" className='text-blue-800 hover:text-blue-400 transition duration-200 ease-in-out'>Forgot Password?</Link>
+                                    <p className='text-blue-800 hover:text-blue-400 transition duration-200 ease-in-out cursor-pointer' 
+                                    onClick={() => {
+                                        openForgotPassword()
+                                        closeModalLogin()
+                                    }}>Forgot Password?</p>
                                 </p>
                             </div>
                             <button className='w-full bg-[#28a3eb] text-white px-7 py-3 text-[12px] lg:text-sm font-medium uppercase rounded shadow-md hover:bg-[#3880aa] transition duration-150 ease-in-out hover:shadow-lg active:bg-[#286d96]' type="submit">Sign In</button>
@@ -103,7 +118,11 @@ const LoginModal = ({closeModal}) => {
                                 <p className='font-semibold text-[10px] md:text-[12px] lg:text-sm'>OR</p>
                             </div> 
                             <OAuth />
-                            
+                            <p className='mb-3'>Don't have an account?<span className='text-[#2c70d4] hover:text-[#7bacf5] cursor-pointer'
+                            onClick={() => {
+                                openModalRegister()
+                                closeModalLogin()
+                            }}>Register</span></p>
                         </form>
                     </div>
                 </div>

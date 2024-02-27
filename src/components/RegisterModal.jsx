@@ -4,11 +4,10 @@ import { getAuth, createUserWithEmailAndPassword, updateProfile, sendEmailVerifi
 import { db } from '../firebase';
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import OAuth from "../components/OAuth";
-import { Link } from "react-router-dom";
+import OAuth from "./OAuth";
 import { toast } from "react-toastify";
 
-const RegisterModal = ({closeModal}) => {
+const RegisterModal = ({closeModalRegister, openModalLogin}) => {
 
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
@@ -17,9 +16,10 @@ const RegisterModal = ({closeModal}) => {
         name: "",
         email: "",
         password: "",
+        photo: "",
     })
 
-    const { name, email, password } = formData;
+    const { name, email, password, photo } = formData;
 
     const onChange = (e) => {
         setFormData((prevState)=> ({
@@ -34,9 +34,10 @@ const RegisterModal = ({closeModal}) => {
         try {
             const auth = getAuth();
             const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
-            
+
             updateProfile(auth.currentUser, {
-                displayName: name
+                displayName: name,
+                
             })
             const user = userCredentials.user;
             
@@ -45,13 +46,14 @@ const RegisterModal = ({closeModal}) => {
             formDataCopy.timestamp = serverTimestamp();
 
             await setDoc(doc(db, "users", user.uid), formDataCopy)
-            
-            navigate("/")
             console.log(auth)
+            navigate('/pending');
+
         } catch(error) {
             toast.error("Email Already exist");
         }
     }
+
 
     return (
     <>
@@ -66,7 +68,7 @@ const RegisterModal = ({closeModal}) => {
                     </h3>
                     <button
                         className="p-1 text-black text-sm leading-none font-semibold  absolute right-2 top-0"
-                        onClick={() => closeModal(false)}>
+                        onClick={closeModalRegister}>
                         <span className="text-black text-xl block outline-none focus:outline-none">
                         X
                         </span>
@@ -111,14 +113,19 @@ const RegisterModal = ({closeModal}) => {
                         <div className='my-1'>
                         <p className='font-semibold text-[10px] md:text-[12px] lg:text-sm'>OR</p>
                         </div> 
-                        
                         <OAuth />
-                        
+                        <p className='mb-3'>Already have an account.
+                        <span 
+                        className='text-[#2c70d4] hover:text-[#7bacf5] cursor-pointer'
+                        onClick={()=> {
+                            openModalLogin()
+                            closeModalRegister()
+                        }}>Login</span></p>
                     </form>
+                    
             </div>
         </div>
     </div>
-    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
     </>
     )
 }

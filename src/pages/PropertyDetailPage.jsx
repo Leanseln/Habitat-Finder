@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { doc, getDoc } from 'firebase/firestore'
 import { useParams } from 'react-router'
 import { db } from '../firebase'
-import Loading from '../hooks/Loading'
+import Loading from '../components/Loading'
 import { FaMapMarkerAlt, FaBed, FaBath, FaParking } from "react-icons/fa";
 import Footer from '../components/Footer'
 
