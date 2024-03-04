@@ -25,7 +25,7 @@ const HomeHeader = () => {
 
     return (
         <>
-        <header className='bg-[#ffd7b1] sticky top-0 z-[100]'>
+        <header className='bg-[#ffd7b1] sticky top-0 z-10'>
             <div className='flex items-center justify-between container mx-auto py-2 lg:px-10'>
                 <div className='flex justify-center text-center my-auto'>
                     <img src={LOGO} className='h-14 hover:scale-105' onClick={()=>navigate('/')} />
@@ -33,7 +33,7 @@ const HomeHeader = () => {
 
                 <div className='flex justify-center text-center items-center'>
                     <ul className='flex space-x-10 justify-center items-center'>
-                        <li className='text-lg font-semibold text-gray-800 border-b-[3px] border-b-transparent cursor-pointer hover:scale-105 hover:text-[#BD5B00]'
+                        <li className='hidden sm:block text-lg font-semibold text-gray-800 border-b-[3px] border-b-transparent cursor-pointer hover:scale-105 hover:text-[#BD5B00]'
                         onClick={()=>navigate("/")}>Home</li>
                         
                         <img className='h-12 cursor-pointer hover:scale-105 hover:text-[#BD5B00] rounded-full bg-[#ce6c10] '

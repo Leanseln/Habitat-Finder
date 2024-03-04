@@ -35,16 +35,16 @@ const PropertyDetailPage = () => {
     return (
         <>
             <HomeHeader />
-            <div className='mx-auto bg-[#FEECDB] py-5'>
-            <div className="container mx-auto h-screen flex justify-center items-center">
+            <div className='mx-auto bg-[#FEECDB] h-screen py-5'>
+            <div className="container mx-auto flex justify-center items-center">
             <div className='flex flex-col '>
-                <div className='mx-auto bg-[#ffd5b2] px-5'>
-                    <p className='pt-8 mb-5 flex text-3xl items-center font-semibold'>
+                <div className='mx-auto border-2 border-black bg-[#ffd5b2] p-5'>
+                    <p className='mb-5 flex text-3xl items-center font-semibold'>
                         {listing.name}, {listing.city}
                     </p>
                     <div className='flex gap-5'>
                         <img src={listing.imgUrls[0]} alt="imahe" 
-                        className='h-[200px] w-[400px] sm:h-[450px] sm:w-[800px] object-fit' />
+                        className='h-[200px] w-[400px] sm:h-[300px] sm:w-[500px] lg:h-[450px] lg:w-[800px] object-fit' />
                         
                     </div>
                     
@@ -103,7 +103,7 @@ const PropertyDetailPage = () => {
                             </div>
                         </div>
 
-                        <div className='flex justify-between px-5 border-[1px] bg-[#ec9a6a] py-3 rounded my-5'>
+                        <div className='flex justify-between px-5 border-[1px] bg-[#ec9a6a] py-3 rounded '>
                             <div className='flex flex-col justify-center items-center font-semibold'>
                                 <p>Do you have any questions about this property?</p>
                                 <p>Connect with the owner</p>
@@ -115,6 +115,7 @@ const PropertyDetailPage = () => {
                 </div>
             </div>
             </div>
+            
             </div>
             <Footer />
         </>

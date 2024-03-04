@@ -4,16 +4,17 @@ import { MdLocationOn } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 
-export default function PropertyCard({ listing, id, onDelete, onEdit }) {
+export default function PropertyCard({ listing, id, onDelete, onEdit, searchCity }) {
     
     const result = moment(listing.timestamp?.toDate()).fromNow();
+
     
-    return (
+        return (
         <li className='relative bg-[#ffd7b1] flex flex-col justify-between items-center shadow-md hover:shadow-xl rounded-md'>
             <Link className='contents' to={`/property/${id}`}>
                 <img src={listing.imgUrls[0]} 
                 alt=""
-                className="h-[170px] w-full object-cover hover:scale-105 transition-scale duration-200 ease-in"
+                className="h-[170px] w-full object-cover hover:scale-105 transition-scale duration-200 ease-in rounded-t-md "
                 loading="lazy"
                 />
                 
@@ -21,7 +22,7 @@ export default function PropertyCard({ listing, id, onDelete, onEdit }) {
                 <div className='w-full p-[10px]'>
                     <div className='flex items-center space-x-1'>
                         <MdLocationOn className='h-4 w-4 text-amber-700' />
-                        <p className='font-semibold text-sm mb=[2px] text-[#a36533] truncate'>{listing.address}</p>
+                        <p className='font-semibold text-sm mb=[2px] text-amber-700 truncate'>{listing.address}</p>
                     </div>
                     <p className='font-semibold mt-1 text-xl text-amber-700 truncate'>{listing.name}</p>
                     <div className=" flex items-center mt-2 space-x-1">

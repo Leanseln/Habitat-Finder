@@ -7,6 +7,7 @@ import { collection, getDoc, getDocs, limit, orderBy, query, where } from "fireb
 import { db } from "../firebase"
 import PropertyCard from "../components/PropertyCard"
 import { getAuth } from "firebase/auth"
+import Footer from "../components/Footer";
 
 
 
@@ -47,7 +48,8 @@ const Home = () => {
     }, []);
     
     return (
-        <> 
+        <>
+        <div> 
         <HomeHeader />
         <div className="bg-[#FEECDB]">
         <div className="flex justify-center items-center flex-col">
@@ -126,6 +128,8 @@ const Home = () => {
 
         </div>
         </div>
+        
+        </div><Footer />
         </>
     )
 }

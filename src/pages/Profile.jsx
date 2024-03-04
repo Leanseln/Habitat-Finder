@@ -13,6 +13,7 @@ import PP from '../images/profile.png'
 import { TbEdit } from "react-icons/tb";
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../store/userSlice';
+import Footer from '../components/Footer';
 
 const Profile = () => {
 
@@ -120,14 +121,14 @@ const Profile = () => {
     return (
         <>
         <HomeHeader />
-        <div className='bg-[#FEECDB] min-h-[100vh]'>
+        <div className='bg-[#FEECDB] h-screen'>
             <section className='max-w-6xl mx-auto flex justify-center items-center flex-col'>
                 <h1 className='text-3xl text-center mt-6 font-bold'>
                     My Profile
                 </h1>
                 <div className='w-full md:[50%] mt-6 px-3'>
                     
-                    <form className='flex'>
+                    <form className='flex justify-around sm:justify-normal'>
                         <div className='w-[25%] flex justify-center items-center relative'>
                             <div className='relative'>
                             <img src={photo || PP} 
@@ -135,12 +136,12 @@ const Profile = () => {
                             id='photo'
                             disabled={!changeDetail}
                             onChange={onChange}
-                            className='w-[160px] h-[160px] rounded-full object-cover hover:scale-105' />
+                            className='w-[80px] h-[80px] sm:w-[160px] sm:h-[160px] rounded-full object-cover hover:scale-105' />
                             <TbEdit size={20} className='absolute hidden right-3 bottom-4 text-amber-1000 hover:scale-105 cursor-pointer'/>
                         </div>
                         </div>
                         {/* name input */}
-                        <div className='pt-10 mb-10'>
+                        <div className='w-1/2 pt-10 mb-10'>
                         <label for="name" className='mb-2 text-sm font-medium text-gray-900 dark:text-white'>Name</label>
                         <input
                             type="name"
@@ -196,6 +197,7 @@ const Profile = () => {
             {showPropertyModal && <AddPropertyModal closeModal={setShowPropertyModal} />}
             {showEditPropertyModal && <EditPropertyModal closeEditModal={() => setShowEditPropertyModal(false)} />}
         </div>
+        <Footer />
         </>
     )
 }

@@ -81,12 +81,10 @@ const RegisterModal = ({closeModalRegister, openModalLogin}) => {
                     break;
                     default:
                     toast.error(error.message);
-                    console.log(error);
                     break;
                 }
         }
     }
-
 
     return (
     <>
