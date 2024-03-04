@@ -9,6 +9,7 @@ import RegisterModal from "../components/RegisterModal"
 import ForgotPassword from "../components/ForgotPassword"
 import { useEffect, useState } from "react"
 import { CgArrowLongRight } from "react-icons/cg";
+import Footer from "../components/Footer"
 
 
 const LandingPage = () => {
@@ -111,6 +112,7 @@ const LandingPage = () => {
         {showModalLogin && <LoginModal closeModalLogin={() => setShowModalLogin(false)} openModalRegister={() => setShowModalRegister(true)} openForgotPassword={() => setShowForgotPassword(true)} />}
         {showModalRegister && <RegisterModal closeModalRegister={() => setShowModalRegister(false)} openModalLogin={() => setShowModalLogin(true)} />}
         {showForgotPassword && <ForgotPassword closeForgotPassword={() => setShowForgotPassword(false)} openModalRegister={() => setShowModalRegister(true)} openModalLogin={() => setShowModalLogin(true)} />}
+        <Footer />
         </>
     )
 }

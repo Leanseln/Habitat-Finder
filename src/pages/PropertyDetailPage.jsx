@@ -35,7 +35,7 @@ const PropertyDetailPage = () => {
     return (
         <>
             <HomeHeader />
-            <div className='mx-auto bg-[#FEECDB] h-screen py-5'>
+            <div className='mx-auto bg-[#FEECDB] min-h-screen py-5'>
             <div className="container mx-auto flex justify-center items-center">
             <div className='flex flex-col '>
                 <div className='mx-auto border-2 border-black bg-[#ffd5b2] p-5'>

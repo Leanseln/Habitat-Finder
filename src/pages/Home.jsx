@@ -49,7 +49,7 @@ const Home = () => {
     
     return (
         <>
-        <div> 
+        
         <HomeHeader />
         <div className="bg-[#FEECDB]">
         <div className="flex justify-center items-center flex-col">
@@ -72,39 +72,10 @@ const Home = () => {
         </div>
         </div>
         <hr className="my-4 border-t border-black" />
-        <div className="container mx-auto mt-4">
-            <div className="flex space-x-4 overflow-hidden sm:ml-20">
-                <div>
-                <select name="Price" className="block mt-1 w-full bg-[#ffd7b1] py-1 rounded-md ">
-                    <option className="text-center">Price</option>
-                    <option value="option1">2,000 - 4,000</option>
-                    <option value="option2">5,000 - 7,000</option>
-                    <option value="option3">8,000 more</option>
-                </select>
-                </div>
-                <div>
-                <select name="Bedroom" className="block mt-1 w-full bg-[#ffd7b1] px-1 py-1 rounded-md">
-                    <option className="text-center">Bedroom</option>
-                    <option value="option1">1 - 3</option>
-                    <option value="option2">4 - 8</option>
-                    <option value="option3">9 more</option>
-                </select>
-                </div>
-                <div>
-                <select name="Guest" className="block mt-1 w-full bg-[#ffd7b1] px-1 py-1 rounded-md">
-                    <option className="text-center">House Type</option>
-                    <option value="option1">House</option>
-                    <option value="option2">Condo</option>
-                    <option value="option3">Apartment</option>
-                </select>
-                </div>
-            </div>
-        </div>
+
         <div>
     
             <section>
-            
-            
             <div className="max-w-6xl mx-auto pt-4 space-y-6 ">
             {rentListings && rentListings.length > 0 && (
             <div className="m-2 mb-6">
@@ -129,7 +100,7 @@ const Home = () => {
         </div>
         </div>
         
-        </div><Footer />
+        <Footer />
         </>
     )
 }

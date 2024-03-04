@@ -121,13 +121,13 @@ const Profile = () => {
     return (
         <>
         <HomeHeader />
-        <div className='bg-[#FEECDB] h-screen'>
+        <div>
+        <div className='bg-[#FEECDB] min-h-full'>
             <section className='max-w-6xl mx-auto flex justify-center items-center flex-col'>
                 <h1 className='text-3xl text-center mt-6 font-bold'>
                     My Profile
                 </h1>
                 <div className='w-full md:[50%] mt-6 px-3'>
-                    
                     <form className='flex justify-around sm:justify-normal'>
                         <div className='w-[25%] flex justify-center items-center relative'>
                             <div className='relative'>
@@ -149,7 +149,7 @@ const Profile = () => {
                             value={name}
                             disabled={!changeDetail}
                             onChange={onChange}
-                            className={`w-full px-4 py-1 text-base text-gray-700 bg-[#EFC7A2] border-[1px] border-black transition ease-in-out mb-3 &&${changeDetail && "bg-red-200 focus:bg-red-200"}`} />
+                            className={`w-full px-4 py-1 text-sm sm:text-base text-gray-700 bg-[#EFC7A2] border-[1px] border-black transition ease-in-out mb-3 &&${changeDetail && "bg-red-200 focus:bg-red-200"}`} />
 
                         {/* email input */}
                         <label for="email" className='mb-2 text-sm font-medium text-gray-900 dark:text-white'>Email</label>
@@ -158,7 +158,7 @@ const Profile = () => {
                             id='email'
                             value={email}
                             disabled
-                            className='w-full px-4 py-1 text-base text-gray-700 bg-[#EFC7A2] border-[1px] border-black transition ease-in-out mb-3 ' />
+                            className='w-full px-4 py-1 text-sm sm:text-base text-gray-700 bg-[#EFC7A2] border-[1px] border-black transition ease-in-out mb-3 ' />
 
                         <div className='flex justify-end text-sm sm:text-lg'>
                             <p
@@ -176,6 +176,7 @@ const Profile = () => {
                     </button>
                 </div>
             </section>
+            <section>
             <div className='max-w-6xl px-3 mt-6 mx-auto'>
                 {!loading && listings.length > 0 && (
                     <>
@@ -194,8 +195,10 @@ const Profile = () => {
                     </>
                 )}
             </div>
+            </section>
             {showPropertyModal && <AddPropertyModal closeModal={setShowPropertyModal} />}
             {showEditPropertyModal && <EditPropertyModal closeEditModal={() => setShowEditPropertyModal(false)} />}
+        </div>
         </div>
         <Footer />
         </>
