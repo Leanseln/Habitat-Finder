@@ -27,7 +27,7 @@ const Header = () => {
 
     return (
         <>
-            <header className='bg-[#ffd7b1] sticky top-0 z-50'>
+            <header className='bg-[#ffd7b1] sticky top-0 z-[100]'>
                 <div className='flex items-center justify-between container mx-auto py-2 lg:px-24'>
                     <div>
                         <img src={LOGO} className='h-12 hover:scale-105' />
