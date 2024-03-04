@@ -25,7 +25,7 @@ const HomeHeader = () => {
 
     return (
         <>
-        <header className='bg-[#ffd7b1] sticky top-0'>
+        <header className='bg-[#ffd7b1] sticky top-0 z-50'>
             <div className='flex items-center justify-between container mx-auto py-2 lg:px-10'>
                 <div className='flex justify-center text-center my-auto'>
                     <img src={LOGO} className='h-14 hover:scale-105' onClick={()=>navigate('/')} />
@@ -38,12 +38,12 @@ const HomeHeader = () => {
                         
                         <img className='h-12 cursor-pointer hover:scale-105 hover:text-[#BD5B00] rounded-full bg-[#ce6c10] '
                         onClick={()=>navigate("/profile")} src={user.photoURL ?? Profile } alt="" />
-                            
                     </ul>
                 </div>
                 </div>
+                <hr className='border-orange-800'/>
         </header>
-        <hr className='border-orange-800'/>
+        
         </>
     )
 }
