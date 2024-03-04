@@ -15,6 +15,7 @@ const Home = () => {
     const auth = getAuth();
     const [loading, setLoading] = useState(true);
     const [rentListings, setRentListings] = useState(null);
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         async function fetchListings() {
@@ -59,7 +60,11 @@ const Home = () => {
             <div className="flex justify-center items-center">
                 <div className="flex flex-row bg-white border border-black rounded-full overflow-hidden w-full max-w-96 sm:min-w-96 ">
                 <BiSearchAlt className="ms-2 mt-1"/>
-                <input type="text" className="flex-grow px-3 py-0 focus:outline-none" placeholder="Search City" />
+                <input 
+                type="text" 
+                className="flex-grow px-3 py-0 focus:outline-none" 
+                placeholder="Search City"
+                />
                 <button type="submit" className="bg-[#ce6c10] text-white px-3 py-0 sm:rounded-r-full">Search</button>
                 </div>
         </div>
@@ -85,10 +90,10 @@ const Home = () => {
                 </div>
                 <div>
                 <select name="Guest" className="block mt-1 w-full bg-[#ffd7b1] px-1 py-1 rounded-md">
-                    <option className="text-center">Guest</option>
-                    <option value="option1">1 - 3</option>
-                    <option value="option2">4 - 8</option>
-                    <option value="option3">9 more</option>
+                    <option className="text-center">House Type</option>
+                    <option value="option1">House</option>
+                    <option value="option2">Condo</option>
+                    <option value="option3">Apartment</option>
                 </select>
                 </div>
             </div>

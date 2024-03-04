@@ -1,13 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import LOGO from '../images/LOGO.png'
-import { getAuth } from 'firebase/auth';
+import { getAuth} from 'firebase/auth';
 import Profile from '../images/profile.png';
+import { useSelector } from 'react-redux';
 
 const HomeHeader = () => {
 
     const navigate = useNavigate();
-    const auth = getAuth();
+    const user = useSelector((state) => state.user)
+
+    useEffect(()=>{
+        if(user && !user.emailVerified){
+            return navigate('/pending')
+        }
+        if(!user) {
+            return navigate('/landingpage')
+        }
+    }, [user])
+
+    if(!user) {
+        return null;
+    }
 
     return (
         <>
@@ -23,7 +37,7 @@ const HomeHeader = () => {
                         onClick={()=>navigate("/")}>Home</li>
                         
                         <img className='h-12 cursor-pointer hover:scale-105 hover:text-[#BD5B00] rounded-full bg-[#ce6c10] '
-                        onClick={()=>navigate("/profile")} src={auth.currentUser.photoURL ?? Profile } alt="" />
+                        onClick={()=>navigate("/profile")} src={user.photoURL ?? Profile } alt="" />
                             
                     </ul>
                 </div>

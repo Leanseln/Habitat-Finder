@@ -6,11 +6,14 @@ import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import OAuth from "./OAuth";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../store/userSlice";
 
 const RegisterModal = ({closeModalRegister, openModalLogin}) => {
 
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     
     const [formData, setFormData] = useState({
         name: "",
@@ -31,36 +34,66 @@ const RegisterModal = ({closeModalRegister, openModalLogin}) => {
     const onSubmit = async(e) => {
         e.preventDefault()
 
+        // Perform basic validation for empty fields (optional)
+        if (name === '') {
+            toast.error('Please enter your name');
+            return;
+        }
+        if (email === '') {
+            toast.error('Please enter your email address');
+            return;
+        }
+        if(password === '') {
+            toast.error('Please enter your password');
+            return;
+        }
+
         try {
             const auth = getAuth();
             const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
 
-            updateProfile(auth.currentUser, {
+            await updateProfile(userCredentials.user, {
                 displayName: name,
-                
             })
-            const user = userCredentials.user;
-            
+            const {uid, emailVerified, displayName, email:userEmail, photoURL} = userCredentials.user
+            dispatch(setCredentials({uid, emailVerified, displayName, email:userEmail, photoURL}))
             const formDataCopy = {...formData}
             delete formDataCopy.password
             formDataCopy.timestamp = serverTimestamp();
 
-            await setDoc(doc(db, "users", user.uid), formDataCopy)
-            console.log(auth)
+            await setDoc(doc(db, "users", userCredentials.user.uid), formDataCopy)
+            sendEmailVerification(userCredentials.user)
             navigate('/pending');
 
         } catch(error) {
-            toast.error("Email Already exist");
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                    toast.error(`Email address ${email} already in use.`);
+                    break;
+                    case 'auth/invalid-email':
+                    toast.error(`Email address ${email} is invalid.`);
+                    break;
+                    case 'auth/operation-not-allowed':
+                    toast.error(`Error during sign up.`);
+                    break;
+                    case 'auth/weak-password':
+                    toast.error('Password is not strong enough.');
+                    break;
+                    default:
+                    toast.error(error.message);
+                    console.log(error);
+                    break;
+                }
         }
     }
 
 
     return (
     <>
-    <div className=" backdrop-blur-none items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative w-4/6 sm:w-[50%] lg:max-w-[25%] my-6 mx-auto ">
+    <div className="bg-black bg-opacity-40 items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+        <div className="relative w-4/6 sm:w-[50%] lg:max-w-[25%] my-6 mx-auto">
             {/*content*/}
-            <div className="bg-[#EFC7A2] backdrop-blur-sm border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none">
+            <div className="bg-[#EFC7A2] border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex items-center justify-between mx-auto p-5 border-b border-solid border-blueGray-200 rounded-t">
                     <h3 className="text-3xl font-bold text-[#4B2C1A]">

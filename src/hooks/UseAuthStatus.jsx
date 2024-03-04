@@ -1,6 +1,5 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router";
 
 export function useAuthStatus() {
     

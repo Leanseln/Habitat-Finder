@@ -21,7 +21,6 @@ const LandingPage = () => {
 
         <>
         <Header />
-        
             <div className="w-full h-screen flex-grow bg-cover bg-center bg-no-blur flex  overflow-x-auto"
                     style={{ backgroundImage: `url(${LandingPage1})` }}>
                 <div className="w-full md:pr-8 md:pl-4 sm:items-center text-center  ml-16 md:mr-5 s:mr-16 mt-32">

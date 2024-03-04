@@ -4,20 +4,25 @@ import { db } from "../firebase";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../store/userSlice";
 
 const OAuth = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const onGoogleClick = async () => {
         try {
             const auth = getAuth();
     
             const provider = new GoogleAuthProvider();
-
+            
             const result = await signInWithPopup(auth, provider)
             const user = result.user;
             console.log(user)
+            const {uid, emailVerified, displayName, email:userEmail, photoURL} = user
+            
             // user check if already exist
             const docRef = doc(db, "users", user.uid);
 
@@ -31,6 +36,7 @@ const OAuth = () => {
                     timestamp: serverTimestamp(),
                 })
             }
+            dispatch(setCredentials({uid, emailVerified, displayName, email:userEmail, photoURL}))
             navigate('/')
             console.log(auth)
         } catch (error) {

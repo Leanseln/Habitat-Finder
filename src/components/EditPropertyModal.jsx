@@ -4,12 +4,12 @@ import { toast } from 'react-toastify'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getAuth } from 'firebase/auth';
 import { v4 as uuidv4} from "uuid";
-import { addDoc, collection, serverTimestamp, updateDoc, doc, getDoc } from 'firebase/firestore';
+import { serverTimestamp, updateDoc, doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 
-const EditPropertyModal = ({closeModal}) => {
+const EditPropertyModal = ({closeEditModal}) => {
 
     const auth = getAuth()
     const navigate = useNavigate()
@@ -25,8 +25,11 @@ const EditPropertyModal = ({closeModal}) => {
         address: '',
         description: '',
         city: '',
+        parking: false,
+        floorArea: 0,
         Price: 0,
         images: {},
+        houseType: '',
     });
 
     const {
@@ -36,6 +39,9 @@ const EditPropertyModal = ({closeModal}) => {
         city,
         bathrooms, 
         address, 
+        parking,
+        floorArea,
+        houseType,
         description, 
         Price, 
         images } = formData;
@@ -88,9 +94,9 @@ const EditPropertyModal = ({closeModal}) => {
 
         setLoading(true);
         
-        if(images.length > 50) {
+        if(images.length > 16) {
             setLoading(false);
-            toast.error("Maximum 50 images are allowed");
+            toast.error("Maximum 15 images are allowed");
             return;
         }
         
@@ -156,7 +162,7 @@ const EditPropertyModal = ({closeModal}) => {
         await updateDoc(docRef, formDataCopy);
         setLoading(false);
         toast.success("Property Updated");
-        navigate("/profile");  
+        closeModal(false) 
     }
 
     if(loading) {
@@ -165,8 +171,8 @@ const EditPropertyModal = ({closeModal}) => {
 
     return (
         <div className=''>
-            <div className="items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                <div className="relative sm:w-[400px] md:w-[450px] lg:min-w-[500px] lg:max-w-[500px] my-6 mx-auto">
+            <div className="items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none pt-28">
+                <div className="relative sm:w-[400px] md:w-[450px] lg:min-w-[500px] lg:max-w-[500px] mt-12 mx-auto">
                     {/*content*/}
                     <div className="bg-[#EFC7A2] border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none px-8">
                         {/*header*/}
@@ -176,7 +182,7 @@ const EditPropertyModal = ({closeModal}) => {
                         </h3>
                         <button
                             className="p-1 text-black text-sm leading-none font-semibold  absolute right-2 top-0"
-                            onClick={() => closeModal(false)}>
+                            onClick={() => navigate('/profile')}>
                             <span className="text-black text-xl block outline-none focus:outline-none">
                             X
                             </span>
@@ -193,7 +199,7 @@ const EditPropertyModal = ({closeModal}) => {
                         className="mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full bg-[#ce6c10] text-white cursor-default"
                     >Rent</button>
 
-                <p className='text-sm md:text-lg mt-6 font-semibold'>Name</p>
+                <p className='text-sm md:text-lg mt-6 font-semibold'>Name:</p>
                 <input 
                     type="text" 
                     id='name' 
@@ -206,9 +212,20 @@ const EditPropertyModal = ({closeModal}) => {
                     className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mg-6'
                 />
 
-                <div className='flex space-x-6 mb-6'>
+                <div className="my-3">
+                <p className="text-lg font-semibold">House Type:</p>
+                <select id="houseType" value={houseType} onChange={onChange} className="w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600">
+                    <option value="">Select House Type</option>
+                    <option value="apartment">Apartment</option>
+                    <option value="house">House</option>
+                    <option value="condo">Condo</option>
+                    {/* Add more options as needed */}
+                </select>
+                </div>
+
+                <div className='flex space-x-6 my-3'>
                     <div>
-                        <p className='text-lg font-semibold'>Beds</p>
+                        <p className='text-lg font-semibold'>Bedrooms:</p>
                         <input 
                             type="number" 
                             id='bedrooms' 
@@ -220,7 +237,7 @@ const EditPropertyModal = ({closeModal}) => {
                             className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-700 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'/>
                     </div>
                     <div>
-                        <p className='text-lg font-semibold'>Baths</p>
+                        <p className='text-lg font-semibold'>Baths:</p>
                         <input 
                             type="number" 
                             id='bathrooms' 
@@ -233,7 +250,7 @@ const EditPropertyModal = ({closeModal}) => {
                     </div>
                 </div>
 
-                <p className='text-lg mt-6 font-semibold'>Address</p>
+                <p className='text-lg mt-3 font-semibold'>Address:</p>
                 <input 
                     type="text" 
                     id='address' 
@@ -244,7 +261,7 @@ const EditPropertyModal = ({closeModal}) => {
                     className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'
                 />
 
-                <p className='text-lg mt-3 font-semibold'>City</p>
+                <p className='text-lg mt-3 font-semibold'>City:</p>
                 <input 
                     type="text" 
                     id='city' 
@@ -255,9 +272,9 @@ const EditPropertyModal = ({closeModal}) => {
                     className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'
                 />
 
-                <p className='text-lg font-semibold'>Description</p>
+                <p className='text-lg font-semibold'>Description:</p>
                 <input 
-                    type="text" 
+                    type='text' 
                     id='description' 
                     value={description}
                     onChange={onChange}
@@ -266,29 +283,37 @@ const EditPropertyModal = ({closeModal}) => {
                     className="w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 whitespace-pre-line"
                 />
 
-                <p className='text-lg mt-6 font-semibold'>Parking Spot</p>
-                <div className='flex'>
-                    <button 
-                        type='button' 
-                        id='parking' 
-                        value={true}
-                        onClick={onChange}
-                        className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${ !parking ? "bg-white text-black" : "bg-[#ce6c10] text-white"}`}
-                    >Yes</button>
+                <div className="flex items-center my-3">
+                <p className="text-lg font-semibold mr-4">Parking Spot:</p>
+                <div className="flex items-center space-x-4">
+                    <input
+                    type="radio"
+                    id="yesparking"
+                    name="parking"
+                    value={true}
+                    onChange={onChange}
+                    checked={parking}
+                    className="w-4 h-4 border-gray-300 rounded-full focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    />
+                    <label htmlFor="yesparking">Yes</label>
 
-                    <button 
-                        type='button' 
-                        id='parking' 
-                        value={false}
-                        onClick={onChange}
-                        className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${ parking ? "bg-white text-black" : "bg-[#ce6c10] text-white"}`}
-                    >No</button>
+                    <input
+                    type="radio"
+                    id="noparking"
+                    name="parking"
+                    value={false}
+                    onChange={onChange}
+                    checked={!parking}
+                    className="w-4 h-4 border-gray-300 rounded-full focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    />
+                    <label htmlFor="noparking">No</label>
+                </div>
                 </div>
 
-                <div className="flex items-center mt-6 mb-6">
+                <div className="flex items-center my-3">
                     <div className="">
                         <p className='text-lg font-semibold'>
-                            Floor Area
+                            Floor Area:
                         </p>
                         <div className="flex justify-center items-center space-x-6">
                             <input 
@@ -296,8 +321,7 @@ const EditPropertyModal = ({closeModal}) => {
                             id='floorArea' 
                             value={floorArea}
                             onChange={onChange}
-                            min="500"
-                            max="1000000000"
+                            min="0"
                             required
                             className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
                             />
@@ -306,10 +330,10 @@ const EditPropertyModal = ({closeModal}) => {
                         
                     </div>
                 </div>
-                <div className="flex items-center mb-6">
+                <div className="flex items-center mb-3">
                     <div className="">
                         <p className='text-lg font-semibold'>
-                            Price
+                            Price (₱):
                         </p>
                         <div className="flex justify-center items-center space-x-6">
                             <input 
@@ -340,9 +364,11 @@ const EditPropertyModal = ({closeModal}) => {
                         required 
                         className='w-full px-3 py-1.5 text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:border-slate-600'
                         />
+                        <p>Please select again your images</p>
                 </div>
 
-                <button type='submit' className='mb-6 w-full px-7 py-3 bg-[#ce6c10] text-white font-medium text-sm uppercase rounded shadow-md hover:bg-[#BD5B00] hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-[#8a4300] active:shadow-lg transition duration-150 ease-in-out'>Add Property</button>
+                <button type='submit' className='mb-6 w-full px-7 py-3 bg-[#ce6c10] text-white font-medium text-sm uppercase rounded shadow-md hover:bg-[#BD5B00] hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-[#8a4300] active:shadow-lg transition duration-150 ease-in-out'
+                >Save Edit</button>
             </form>
                     </div>
                 </div>

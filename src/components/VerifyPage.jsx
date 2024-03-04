@@ -1,35 +1,49 @@
-import { getAuth, sendEmailVerification } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, sendEmailVerification } from 'firebase/auth';
 import { useEffect, useState } from 'react'
 import { IoIosMailOpen } from "react-icons/io";
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { verify } from '../store/userSlice';
 
 const VerifyPage = () => {
-
-    const auth = getAuth()
-    const [user] = useAuthState(auth);
+    const user = useSelector((state) => state.user)
     
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
+    
     const handleSubmitVerification = () => {
-        sendEmailVerification(user) 
+        const auth = getAuth()
+        sendEmailVerification(auth.currentUser) 
         toast.success('Email has been sent')
     }
 
+    useEffect(()=> {
+        const auth = getAuth();
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+            if (firebaseUser) {
+                dispatch(verify(firebaseUser.emailVerified));
+                console.log(firebaseUser)
+            }});
+        return () => {
+                unsubscribe();
+        };
+    }, [])
+
     useEffect(() => {
-        if (user && !user.emailVerified) {
-        sendEmailVerification(user);
+        if (!user) {
+        navigate('/landingpage')
         }
-        if (user && user.emailVerified) {
+        if (user?.emailVerified) {
             navigate('/')
         }
     }, [user]);
 
-
-    function verified(){
-        return window.location.reload();
+    function reload() {
+        window.location.reload();
     }
+
 
     return (
         <div className="max-w-screen-2xl max-h-screen mx-auto px-4 overflow-hidden">
@@ -53,8 +67,9 @@ const VerifyPage = () => {
                 >
                 Send Email
                 </button>
-                <p>If you're verified already! <button onClick={verified} className='text-blue-600'>Click Here!</button></p>
+                <p>If you're verified already! <button onClick={reload} className='text-blue-600'>Click Here!</button></p>
             </div>
+            
             </div>
         </div>
         </div>

@@ -4,11 +4,14 @@ import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import OAuth from './OAuth'
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../store/userSlice';
 
 const LoginModal = ({closeModalLogin, openModalRegister, openForgotPassword}) => {
 
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
+    
     const [showPassword, setShowPassword] = useState(false);
     
     const [formData, setFormData] = useState({
@@ -27,35 +30,34 @@ const LoginModal = ({closeModalLogin, openModalRegister, openForgotPassword}) =>
 
     const Login = async (e) => {
         e.preventDefault()
+        if (email === '') {
+            toast.error('Please enter your email address');
+            return;
+        }
+        if(password === '') {
+            toast.error('Please enter your password');
+            return;
+        }
         try {
             const auth = getAuth();
             const userCredentials = await signInWithEmailAndPassword(auth, email, password);
-            
+            const {uid, emailVerified, displayName, email:userEmail, photoURL} = userCredentials.user
             if(userCredentials.user) {
-                if(auth.currentUser.emailVerified){
-                    navigate('/');
-                    
-                    console.log(auth)
-                    
-                } else {
-                    setFormData({
-                    email: "",
-                    password: "",
-                })
-                closeModalLogin()
-                navigate('/pending');
-                }
+                dispatch(setCredentials({uid, emailVerified, displayName, email:userEmail, photoURL}))
+                toast.success('Successfully Login')
             }
-            console.log(auth)
+            
         } catch (error) {
             toast.error("Invalid Credentials");
+        } finally {
+            closeModalLogin()
         }
     }
 
 
     return (
             <>
-            <div className="items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="bg-black bg-opacity-40 items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                 <div className="relative w-4/6 sm:w-[50%] lg:max-w-[25%] my-6 mx-auto">
                     {/*content*/}
                     <div className="bg-[#EFC7A2] border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none">

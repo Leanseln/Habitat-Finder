@@ -1,15 +1,30 @@
+import { useDispatch, useSelector } from 'react-redux';
 import LOGO from '../images/LOGO.png';
 import ForgotPassword from './ForgotPassword';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { getAuth } from 'firebase/auth';
+import { setCredentials, verify } from '../store/userSlice';
 
 const Header = () => {
 
     const [showModalLogin, setShowModalLogin] = useState(false);
     const [showModalRegister, setShowModalRegister] = useState(false);
     const [showForgotPassword, setShowForgotPassword] = useState(false);
-    
+    const user = useSelector((state) => state.user)
+    const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const auth = getAuth();
+
+    useEffect(()=> {
+        if(user) {
+            navigate('/')
+            console.log(user)
+        }
+    }, [user])
+
     return (
         <>
             <header className='bg-[#ffd7b1] sticky top-0'>

@@ -6,7 +6,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import { useParams } from 'react-router'
 import { db } from '../firebase'
 import Loading from '../components/Loading'
-import { FaMapMarkerAlt, FaBed, FaBath, FaParking } from "react-icons/fa";
+import { FaBed, FaBath, FaParking } from "react-icons/fa";
 import Footer from '../components/Footer'
 
 const PropertyDetailPage = () => {
@@ -14,14 +14,14 @@ const PropertyDetailPage = () => {
     const auth = getAuth();
     const params = useParams();
     const [loading, setLoading] = useState(true);
-    const [property, setProperty] = useState(null);
+    const [listing, setListing] = useState(null);
 
     useEffect(() => {
         async function fetchListing() {
             const docRef = doc(db, "listings", params.listingId);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
-                setProperty(docSnap.data());
+                setListing(docSnap.data());
                 setLoading(false);
             }
         }
@@ -36,30 +36,30 @@ const PropertyDetailPage = () => {
         <>
             <HomeHeader />
             <div className='mx-auto bg-[#FEECDB]'>
-            <div className="container mx-auto h-full">
-            <div className='flex flex-col'>
-                <div className='mx-auto bg-[#ffd5b2] h-full px-5'>
+            <div className="container mx-auto h-screen flex justify-center items-center">
+            <div className='flex flex-col '>
+                <div className='mx-auto bg-[#ffd5b2] px-5'>
                     <p className='pt-8 mb-5 flex text-3xl items-center font-semibold'>
-                        {property.name}, {property.city}
+                        {listing.name}, {listing.city}
                     </p>
                     <div className='flex gap-5'>
-                        <img src={property.imgUrls[0]} alt="imahe" 
-                        className='h-[450px] w-[800px] object-fit' />
+                        <img src={listing.imgUrls[0]} alt="imahe" 
+                        className='h-[200px] w-[400px] sm:h-[450px] sm:w-[800px] object-fit' />
                         
                     </div>
                     
                     <p className='flex text-[20px] items-center mt-6 font-semibold text-[#4B2C1A]'>
-                        {property.address}
+                        {listing.address}
                     </p>
 
                     <ul className='flex items-center whitespace-nowrap space-x-5 my-3 font-medium text-[#4B2C1A] '>
-                        <li className='flex items-center whitespace-nowrap'><FaBed size={20} className='mr-1 text-amber-700' /> {property.bedrooms > 1 ? `${property.bedrooms} Beds` : "1 Bed"}</li>
-                        <li className='flex items-center whitespace-nowrap'><FaBath size={20} className='mr-1 text-amber-700' /> {property.baths > 1 ? `${property.baths} Baths` : "1 Bath"}</li>
-                        <li className='flex items-center whitespace-nowrap'><FaParking size={20} className='mr-1 text-amber-700' /> {property.parking ? "Parking Spot" : "No Parking"}</li>
+                        <li className='flex items-center whitespace-nowrap'><FaBed size={20} className='mr-1 text-amber-700' /> {listing.bedrooms > 1 ? `${listing.bedrooms} Beds` : "1 Bed"}</li>
+                        <li className='flex items-center whitespace-nowrap'><FaBath size={20} className='mr-1 text-amber-700' /> {listing.baths > 1 ? `${listing.baths} Baths` : "1 Bath"}</li>
+                        <li className='flex items-center whitespace-nowrap'><FaParking size={20} className='mr-1 text-amber-700' /> {listing.parking ? "Parking Spot" : "No Parking"}</li>
                     </ul>
 
                     <p className='flex items-center font-semibold text-xl text-[#ff6947] mb-6'>
-                        ₱ {property.Price
+                        ₱ {listing.Price
                         .toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                         / month
@@ -67,7 +67,7 @@ const PropertyDetailPage = () => {
                     
                     <p className='flex flex-col text-[#4B2C1A] font-medium mb-6'>
                         <span className='text-xl mb-1'>Description</span>
-                        {property.description}
+                        {listing.description}
                     </p>
 
                     <div className='text-[#4B2C1A]'>
@@ -76,11 +76,11 @@ const PropertyDetailPage = () => {
                             <div className='w-1/2'>
                                 <div className='flex justify-between border-[1px] border-[#4B2C1A] px-1'>
                                     <p>Floor Area</p>
-                                    <p>{property.floorArea} sqm</p>
+                                    <p>{listing.floorArea} sqm</p>
                                 </div>
                                 <div className='flex justify-between border-[1px] border-[#4B2C1A] px-1'>
                                     <p>Bedrooms</p>
-                                    <p>{property.bedrooms}</p>
+                                    <p>{listing.bedrooms}</p>
                                 </div>
                                 <div className='flex justify-between border-[1px] border-[#4B2C1A] px-1'>
                                     <p>Year Built</p>
@@ -90,11 +90,11 @@ const PropertyDetailPage = () => {
                             <div className='w-1/2'>
                                 <div className='flex justify-between border-[1px] border-[#4B2C1A] px-1'>
                                     <p>Parking</p>
-                                    <p>{property.parking ? "Parking" : "No Parking"}</p>
+                                    <p>{listing.parking ? "Parking" : "No Parking"}</p>
                                 </div>
                                 <div className='flex justify-between border-[1px] border-[#4B2C1A] px-1'>
-                                    <p>Bedrooms</p>
-                                    <p>1521 sqft</p>
+                                    <p>House Type</p>
+                                    <p>{listing.houseType}</p>
                                 </div>
                                 <div className='flex justify-between border-[1px] border-[#4B2C1A] px-1'>
                                     <p>Year Built</p>
@@ -115,8 +115,8 @@ const PropertyDetailPage = () => {
                 </div>
             </div>
             </div>
-                <Footer />
             </div>
+            <Footer />
         </>
     )
 }

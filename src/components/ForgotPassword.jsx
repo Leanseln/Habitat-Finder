@@ -24,7 +24,7 @@ const ForgotPassword = ({closeForgotPassword, openModalLogin, openModalRegister}
   
   return (
     <>
-      <div className="items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+      <div className="bg-black bg-opacity-40 items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
         <div className="relative w-4/6 sm:w-[50%] lg:max-w-[25%] my-6 mx-auto ">
             {/*content*/}
             <div className="bg-[#EFC7A2] backdrop-blur-sm border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none">

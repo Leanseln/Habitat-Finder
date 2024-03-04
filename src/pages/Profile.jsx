@@ -2,17 +2,17 @@ import { useEffect, useState } from 'react'
 import { getAuth } from 'firebase/auth'
 import { useNavigate } from 'react-router';
 import { collection, getDocs, orderBy, query, where, deleteDoc, doc } from 'firebase/firestore';
-import { Link } from 'react-router-dom';
 import { db } from '../firebase';
 import PropertyCard from '../components/PropertyCard';
 import { toast } from 'react-toastify';
-import House from '../images/House1.jpg'
 import HomeHeader from '../components/HomeHeader'
 import { MdAddHome } from "react-icons/md";
 import AddPropertyModal from '../components/AddPropertyModal';
 import EditPropertyModal from '../components/EditPropertyModal';
 import PP from '../images/profile.png'
 import { TbEdit } from "react-icons/tb";
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../store/userSlice';
 
 const Profile = () => {
 
@@ -23,22 +23,25 @@ const Profile = () => {
     const [loading, setLoading] = useState(true);
     const [showPropertyModal, setShowPropertyModal] = useState(false);
     const [showEditPropertyModal, setShowEditPropertyModal] = useState(false);
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
 
     const [formData, setFormData] = useState({
-        name: auth.currentUser.displayName,
-        email: auth.currentUser.email,
-        photo: auth.currentUser.photoURL
+        name: user?.displayName ?? '',
+        email: user?.email ?? '',
+        photo: user?.photoURL ?? '',
     })
 
     const { name, email, photo } = formData;
 
     const onLogout = () => {
-        auth.signOut()
+        const auth = getAuth();
+        auth.signOut();
+        dispatch(logout())
         navigate('/landingpage')
     }
 
     const onChange = (e) => {
-
         if(e.target.files){
             setFormData((prevState) =>({
                 ...prevState,
@@ -53,7 +56,7 @@ const Profile = () => {
         }
     }
 
-    async function onSubmit() {
+    async function editProfile() {
         try {
             if (auth.currentUser.displayName !== name) {
                 //update display name in firebase auth
@@ -96,7 +99,7 @@ const Profile = () => {
         const fetchUserListing = async () => {
 
             const listingRef = collection(db, "listings");
-            const q = query(listingRef, where("userRef", "==", auth.currentUser.uid),
+            const q = query(listingRef, where("userRef", "==", user?.uid),
                 orderBy("timestamp", "desc")
             );
             const querySnap = await getDocs(q);
@@ -111,11 +114,12 @@ const Profile = () => {
             setLoading(false);
         }
         fetchUserListing();
-    }, [auth.currentUser.uid])
+    }, [user?.uid])
 
+    
     return (
         <>
-        < HomeHeader />
+        <HomeHeader />
         <div className='bg-[#FEECDB] min-h-[100vh]'>
             <section className='max-w-6xl mx-auto flex justify-center items-center flex-col'>
                 <h1 className='text-3xl text-center mt-6 font-bold'>
@@ -126,7 +130,7 @@ const Profile = () => {
                     <form className='flex'>
                         <div className='w-[25%] flex justify-center items-center relative'>
                             <div className='relative'>
-                            <img src={photo ?? PP} 
+                            <img src={photo || PP} 
                             alt='Profile Picture'
                             id='photo'
                             disabled={!changeDetail}
@@ -190,7 +194,7 @@ const Profile = () => {
                 )}
             </div>
             {showPropertyModal && <AddPropertyModal closeModal={setShowPropertyModal} />}
-            {showEditPropertyModal && <EditPropertyModal closeModal={setShowEditPropertyModal} />}
+            {showEditPropertyModal && <EditPropertyModal closeEditModal={() => setShowEditPropertyModal(false)} />}
         </div>
         </>
     )

@@ -27,8 +27,9 @@ const AddPropertyModal = ({closeModal}) => {
         floorArea: 0,
         parking: false,
         description: '',
-        Price: 0,
+        Price: 0.0,
         images: {},
+        houseType: '',
     });
 
     const {
@@ -42,7 +43,8 @@ const AddPropertyModal = ({closeModal}) => {
         parking,
         description, 
         Price, 
-        images } = formData;
+        images,
+        houseType, } = formData;
 
     const onChange = (e) => {
         let boolean = null;
@@ -66,6 +68,19 @@ const AddPropertyModal = ({closeModal}) => {
                 [e.target.id]: boolean ?? e.target.value,
             }));
         }
+        if (e.target.name === 'parking') {
+            setFormData((prevState) => ({
+                ...prevState,
+                parking: e.target.value === "true", // Set based on value
+            }));
+        }
+        if (e.target.id === 'houseType') {
+            setFormData((prevState) => ({
+                ...prevState,
+                houseType: e.target.value,
+            }));
+        }
+        
     }
     
     const onSubmit = async (e) => {
@@ -73,9 +88,8 @@ const AddPropertyModal = ({closeModal}) => {
 
         setLoading(true);
         
-        if(images.length > 50) {
-            setLoading(false);
-            toast.error("Maximum 50 images are allowed");
+        if(images.length > 15) {
+            toast.error("Maximum 15 images are allowed");
             return;
         }
         
@@ -138,14 +152,15 @@ const AddPropertyModal = ({closeModal}) => {
         const docRef = await addDoc(collection(db, "listings"), formDataCopy);
         setLoading(false);
         toast.success("Property Added Successfully");
-        navigate("/profile");
+        closeModal(false);
+        window.location.reload();
     }
 
 
     return (
         <div className=''>
-            <div className="items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                <div className="relative sm:w-[400px] md:w-[450px] lg:min-w-[500px] lg:max-w-[500px] mt-12 mx-auto">
+            <div className="items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none pt-28">
+                <div className="relative sm:w-[400px] md:w-[450px] lg:min-w-[500px] lg:max-w-[500px] mt-12">
                     {/*content*/}
                     <div className="bg-[#EFC7A2] border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none px-8">
                         {/*header*/}
@@ -172,7 +187,7 @@ const AddPropertyModal = ({closeModal}) => {
                         className="mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full bg-[#ce6c10] text-white cursor-default"
                     >Rent</button>
 
-                <p className='text-sm md:text-lg mt-6 font-semibold'>Name</p>
+                <p className='text-sm md:text-lg mt-6 font-semibold'>Name:</p>
                 <input 
                     type="text" 
                     id='name' 
@@ -185,9 +200,20 @@ const AddPropertyModal = ({closeModal}) => {
                     className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mg-6'
                 />
 
-                <div className='flex space-x-6 mb-6'>
+                <div className="my-3">
+                <p className="text-lg font-semibold">House Type:</p>
+                <select id="houseType" value={houseType} onChange={onChange} className="w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600">
+                    <option value="">Select House Type</option>
+                    <option value="apartment">Apartment</option>
+                    <option value="house">House</option>
+                    <option value="condo">Condo</option>
+                    {/* Add more options as needed */}
+                </select>
+                </div>
+
+                <div className='flex space-x-6 my-3'>
                     <div>
-                        <p className='text-lg font-semibold'>Beds</p>
+                        <p className='text-lg font-semibold'>Bedrooms:</p>
                         <input 
                             type="number" 
                             id='bedrooms' 
@@ -199,7 +225,7 @@ const AddPropertyModal = ({closeModal}) => {
                             className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-700 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'/>
                     </div>
                     <div>
-                        <p className='text-lg font-semibold'>Baths</p>
+                        <p className='text-lg font-semibold'>Baths:</p>
                         <input 
                             type="number" 
                             id='bathrooms' 
@@ -212,7 +238,7 @@ const AddPropertyModal = ({closeModal}) => {
                     </div>
                 </div>
 
-                <p className='text-lg mt-6 font-semibold'>Address</p>
+                <p className='text-lg mt-3 font-semibold'>Address:</p>
                 <input 
                     type="text" 
                     id='address' 
@@ -223,7 +249,7 @@ const AddPropertyModal = ({closeModal}) => {
                     className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'
                 />
 
-                <p className='text-lg mt-3 font-semibold'>City</p>
+                <p className='text-lg mt-3 font-semibold'>City:</p>
                 <input 
                     type="text" 
                     id='city' 
@@ -234,9 +260,9 @@ const AddPropertyModal = ({closeModal}) => {
                     className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'
                 />
 
-                <p className='text-lg font-semibold'>Description</p>
+                <p className='text-lg font-semibold'>Description:</p>
                 <input 
-                    type="text" 
+                    type='text' 
                     id='description' 
                     value={description}
                     onChange={onChange}
@@ -245,29 +271,37 @@ const AddPropertyModal = ({closeModal}) => {
                     className="w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 whitespace-pre-line"
                 />
 
-                <p className='text-lg mt-6 font-semibold'>Parking Spot</p>
-                <div className='flex'>
-                    <button 
-                        type='button' 
-                        id='parking' 
-                        value={true}
-                        onClick={onChange}
-                        className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${ !parking ? "bg-white text-black" : "bg-[#ce6c10] text-white"}`}
-                    >Yes</button>
+                <div className="flex items-center my-3">
+                <p className="text-lg font-semibold mr-4">Parking Spot:</p>
+                <div className="flex items-center space-x-4">
+                    <input
+                    type="radio"
+                    id="yesparking"
+                    name="parking"
+                    value={true}
+                    onChange={onChange}
+                    checked={parking}
+                    className="w-4 h-4 border-gray-300 rounded-full focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    />
+                    <label htmlFor="yesparking">Yes</label>
 
-                    <button 
-                        type='button' 
-                        id='parking' 
-                        value={false}
-                        onClick={onChange}
-                        className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${ parking ? "bg-white text-black" : "bg-[#ce6c10] text-white"}`}
-                    >No</button>
+                    <input
+                    type="radio"
+                    id="noparking"
+                    name="parking"
+                    value={false}
+                    onChange={onChange}
+                    checked={!parking}
+                    className="w-4 h-4 border-gray-300 rounded-full focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    />
+                    <label htmlFor="noparking">No</label>
+                </div>
                 </div>
 
-                <div className="flex items-center mt-6 mb-6">
+                <div className="flex items-center my-3">
                     <div className="">
                         <p className='text-lg font-semibold'>
-                            Floor Area
+                            Floor Area:
                         </p>
                         <div className="flex justify-center items-center space-x-6">
                             <input 
@@ -275,8 +309,7 @@ const AddPropertyModal = ({closeModal}) => {
                             id='floorArea' 
                             value={floorArea}
                             onChange={onChange}
-                            min="500"
-                            max="1000000000"
+                            min="0"
                             required
                             className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
                             />
@@ -285,10 +318,10 @@ const AddPropertyModal = ({closeModal}) => {
                         
                     </div>
                 </div>
-                <div className="flex items-center mb-6">
+                <div className="flex items-center mb-3">
                     <div className="">
                         <p className='text-lg font-semibold'>
-                            Price
+                            Price (₱):
                         </p>
                         <div className="flex justify-center items-center space-x-6">
                             <input 
