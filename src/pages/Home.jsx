@@ -51,7 +51,7 @@ const Home = () => {
         <>
         
         <HomeHeader />
-        <div className="bg-[#FEECDB]">
+        <div className="mb-[120px]">
         <div className="flex justify-center items-center flex-col">
             <div className="flex items-center justify-center my-2">
             <img src={icon} alt="icon" className="h-12 mr-1 text-[#4B2C1A]"/>

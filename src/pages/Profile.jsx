@@ -122,12 +122,12 @@ const Profile = () => {
         <>
         <HomeHeader />
         <div>
-        <div className='bg-[#FEECDB] min-h-full'>
+        <div className='bg-[#FEECDB] mb-[120px]'>
             <section className='max-w-6xl mx-auto flex justify-center items-center flex-col'>
                 <h1 className='text-3xl text-center mt-6 font-bold'>
                     My Profile
                 </h1>
-                <div className='w-full md:[50%] mt-6 px-3'>
+                <div className='w-full md:[50%] mt-0 sm:mt-6 px-3'>
                     <form className='flex justify-around sm:justify-normal'>
                         <div className='w-[25%] flex justify-center items-center relative'>
                             <div className='relative'>
@@ -141,7 +141,7 @@ const Profile = () => {
                         </div>
                         </div>
                         {/* name input */}
-                        <div className='w-1/2 pt-10 mb-10'>
+                        <div className='w-1/2 py-5 sm:py-10'>
                         <label for="name" className='mb-2 text-sm font-medium text-gray-900 dark:text-white'>Name</label>
                         <input
                             type="name"
