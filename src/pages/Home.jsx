@@ -2,21 +2,20 @@
 import icon from "../images/IconLogo.png"
 import { BiSearchAlt } from "react-icons/bi";
 import HomeHeader from "../components/HomeHeader"
-import { useEffect, useState } from "react"
+import { useDeferredValue, useEffect, useState } from "react"
 import { collection, getDoc, getDocs, limit, orderBy, query, where } from "firebase/firestore"
 import { db } from "../firebase"
 import PropertyCard from "../components/PropertyCard"
 import { getAuth } from "firebase/auth"
 import Footer from "../components/Footer";
-
-
+import NoResult from "../components/NoResult";
 
 const Home = () => {
 
     const auth = getAuth();
-    const [loading, setLoading] = useState(true);
     const [rentListings, setRentListings] = useState(null);
-    const [search, setSearch] = useState('');
+    const [searchCity, setSearchCity] = useState('');
+    const searchValue = useDeferredValue(searchCity);
 
     useEffect(() => {
         async function fetchListings() {
@@ -27,8 +26,7 @@ const Home = () => {
             const q = query(
             listingsRef,
             where("type", "==", "rent"),
-            orderBy("timestamp", "desc"),
-            limit(10)
+            orderBy("timestamp", "desc")
             );
             // execute the query
             const querySnap = await getDocs(q);
@@ -40,12 +38,15 @@ const Home = () => {
             });
             });
             setRentListings(listings);
+            console.log(listings)
             } catch (error) {
                 console.log(error);
             }
         }
         fetchListings();
     }, []);
+    
+    console.log(searchCity)
     
     return (
         <>
@@ -66,6 +67,8 @@ const Home = () => {
                 type="text" 
                 className="flex-grow px-3 py-0 focus:outline-none" 
                 placeholder="Search City"
+                value={searchCity}
+                onChange={(e)=> setSearchCity(e.target.value)}
                 />
                 <button type="submit" className="bg-[#ce6c10] text-white px-3 py-0 sm:rounded-r-full">Search</button>
                 </div>
@@ -84,13 +87,19 @@ const Home = () => {
                 </h2>
                 
                 <ul className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {rentListings.map((listing) => (
+                {searchValue.length <= 0 ? rentListings.map((listing) => (
                     <PropertyCard
                     key={listing.id}
                     listing={listing.data}
                     id={listing.id}
                     />
-                ))}
+                )) : rentListings.filter((property) => property.data.city.toLowerCase().includes(searchValue.toLowerCase())).length > 0 ? rentListings.filter((property) => property.data.city.toLowerCase().includes(searchValue.toLowerCase())).map((listing) => (
+                    <PropertyCard
+                    key={listing.id}
+                    listing={listing.data}
+                    id={listing.id}
+                    />
+                )) : <NoResult /> }
                 </ul>
             </div>
         )}

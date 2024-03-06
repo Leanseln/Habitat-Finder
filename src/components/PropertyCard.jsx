@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { MdLocationOn } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
+import { collection } from 'firebase/firestore';
+import { db } from '../firebase';
 
-export default function PropertyCard({ listing, id, onDelete, onEdit, searchCity }) {
+export default function PropertyCard({ listing, id, onDelete, onEdit }) {
+    
     
     const result = moment(listing.timestamp?.toDate()).fromNow();
 
-    
         return (
         <li className='relative bg-[#ffd7b1] flex flex-col justify-between items-center shadow-md hover:shadow-xl rounded-md'>
             <Link className='contents' to={`/property/${id}`}>
@@ -22,9 +24,8 @@ export default function PropertyCard({ listing, id, onDelete, onEdit, searchCity
                 <div className='w-full p-[10px]'>
                     <div className='flex items-center space-x-1'>
                         <MdLocationOn className='h-4 w-4 text-amber-700' />
-                        <p className='font-semibold text-sm mb=[2px] text-amber-700 truncate'>{listing.address}</p>
+                        <p className='font-semibold text-lg mb=[2px] text-amber-700 truncate'>{listing.address}</p>
                     </div>
-                    <p className='font-semibold mt-1 text-xl text-amber-700 truncate'>{listing.name}</p>
                     <div className=" flex items-center mt-2 space-x-1">
                         <div className="flex items-center space-x-1 text-amber-700">
                             <p className='font-semibold text-xs'>

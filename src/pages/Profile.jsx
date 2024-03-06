@@ -26,6 +26,7 @@ const Profile = () => {
     const [showEditPropertyModal, setShowEditPropertyModal] = useState(false);
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
+    const [editId, setEditId] = useState('');
 
     const [formData, setFormData] = useState({
         name: user?.displayName ?? '',
@@ -57,29 +58,6 @@ const Profile = () => {
         }
     }
 
-    async function editProfile() {
-        try {
-            if (auth.currentUser.displayName !== name) {
-                //update display name in firebase auth
-                await updateProfile(auth.currentUser, {
-                displayName: name,
-                photoURL: photo,
-                });
-        
-                // update name in the firestore
-        
-                const docRef = doc(db, "users", auth.currentUser.uid);
-                await updateDoc(docRef, {
-                name,
-                photoURL,
-                });
-            }
-            toast.success("Profile details updated");
-            } catch (error) {
-            toast.error("Could not update the profile details");
-            }
-        }
-
     const onDelete = async (listingID) => {
         if (window.confirm("Are you sure about that?")) {
             await deleteDoc(doc(db, "listings", listingID))
@@ -92,7 +70,8 @@ const Profile = () => {
     }
 
     const onEdit = (listingID) => {
-        navigate(`/editproperty/${listingID}`)
+        setEditId(listingID)
+        setShowEditPropertyModal(true)
     }
 
 
@@ -117,6 +96,26 @@ const Profile = () => {
         fetchUserListing();
     }, [user?.uid])
 
+    async function SaveEdit() {
+        try {
+            if (user.displayName !== name) {
+                //update display name in firebase auth
+                await updateProfile(user, {
+                displayName: name,
+                });
+        
+                // update name in the firestore
+                const docRef = doc(db, "users", user.uid);
+                await updateDoc(docRef, {
+                name,
+                });
+            }
+            toast.success("Profile details updated");
+            } catch (error) {
+            toast.error("Could not update the profile details");
+            }
+        }
+
     
     return (
         <>
@@ -128,21 +127,23 @@ const Profile = () => {
                     My Profile
                 </h1>
                 <div className='w-full md:[50%] mt-0 sm:mt-6 px-3'>
-                    <form className='flex justify-around sm:justify-normal'>
-                        <div className='w-[25%] flex justify-center items-center relative'>
+                    <div className='flex justify-around sm:justify-normal'>
+                    <div className='w-[25%] flex justify-center items-center relative'>
                             <div className='relative'>
                             <img src={photo || PP} 
                             alt='Profile Picture'
                             id='photo'
                             disabled={!changeDetail}
-                            onChange={onChange}
                             className='w-[80px] h-[80px] sm:w-[160px] sm:h-[160px] rounded-full object-cover hover:scale-105' />
-                            <TbEdit size={20} className='absolute hidden right-3 bottom-4 text-amber-1000 hover:scale-105 cursor-pointer'/>
+                            <input type="file" name='pp' id="pp" className='absolute right-3 bottom-4 text-amber-1000 hover:scale-105 cursor-pointer hidden' />
+                            <label htmlFor="pp" className='absolute right-3 bottom-4 text-amber-1000 hover:scale-105 cursor-pointer hidden'><TbEdit size={20}/></label>
                         </div>
                         </div>
+                    <form className=''>
+                        
                         {/* name input */}
-                        <div className='w-1/2 py-5 sm:py-10'>
-                        <label for="name" className='mb-2 text-sm font-medium text-gray-900 dark:text-white'>Name</label>
+                        <div className='w-full py-5 sm:py-10'>
+                        <label htmlFor="name" className='mb-2 text-sm font-medium text-gray-900 dark:text-white'>Name</label>
                         <input
                             type="name"
                             id='name'
@@ -152,7 +153,7 @@ const Profile = () => {
                             className={`w-full px-4 py-1 text-sm sm:text-base text-gray-700 bg-[#EFC7A2] border-[1px] border-black transition ease-in-out mb-3 &&${changeDetail && "bg-red-200 focus:bg-red-200"}`} />
 
                         {/* email input */}
-                        <label for="email" className='mb-2 text-sm font-medium text-gray-900 dark:text-white'>Email</label>
+                        <label htmlFor="email" className='mb-2 text-sm font-medium text-gray-900 dark:text-white'>Email</label>
                         <input
                             type="email"
                             id='email'
@@ -161,6 +162,14 @@ const Profile = () => {
                             className='w-full px-4 py-1 text-sm sm:text-base text-gray-700 bg-[#EFC7A2] border-[1px] border-black transition ease-in-out mb-3 ' />
 
                         <div className='flex justify-end text-sm sm:text-lg'>
+                        <p className="hidden items-center text-red-600 hover:text-red-700 transition ease-in-out duration-200 ml-1 cursor-pointer"
+                        onClick={() => {
+                            changeDetail && SaveEdit();
+                            setChangeDetail((prevState) => !prevState);
+                        }}>
+                            {changeDetail ? "Apply change" : "Edit"}
+                        </p>
+
                             <p
                                 onClick={onLogout}
                                 className='text-blue-600 hover:text-blue-700 transition ease-in-out duration-200 cursor-pointer'>Sign out</p>
@@ -168,6 +177,7 @@ const Profile = () => {
                         
                     </div>
                     </form>
+                    </div>
                     <button type='submit' className='w-92 bg-[#ce6c10] text-white uppercase px-7 py-2 text-sm font-medium rounded shadow-md hover:bg-[#BD5B00] transition duration-150 ease-in-out hover:shadow-lg active:bg-[#8a4300] flex justify-center items-center'
                     onClick={()=> setShowPropertyModal(true)}>
                         
@@ -197,7 +207,7 @@ const Profile = () => {
             </div>
             </section>
             {showPropertyModal && <AddPropertyModal closeModal={setShowPropertyModal} />}
-            {showEditPropertyModal && <EditPropertyModal closeEditModal={() => setShowEditPropertyModal(false)} />}
+            {showEditPropertyModal && <EditPropertyModal closeEditModal={() => setShowEditPropertyModal(false)} data={listings.filter((property)=>property.id === editId).map((property)=>property.data)} id={editId}/>}
         </div>
         </div>
         <Footer />

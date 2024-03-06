@@ -9,17 +9,15 @@ import { db } from '../firebase';
 import { useNavigate, useParams } from 'react-router';
 
 
-const EditPropertyModal = ({closeEditModal}) => {
+const EditPropertyModal = ({closeEditModal, data, id}) => {
 
     const auth = getAuth()
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
     const [listing, setListing] = useState(null)
-
-    const [formData, setFormData] = useState({
-
-        type: "rent",
-        name: "",
+    
+    console.log(data)
+    const [formData, setFormData] = useState(data[0] || {
         bedrooms: 1,
         bathrooms: 1,
         address: '',
@@ -33,8 +31,6 @@ const EditPropertyModal = ({closeEditModal}) => {
     });
 
     const {
-        type,
-        name, 
         bedrooms, 
         city,
         bathrooms, 
@@ -56,22 +52,7 @@ const EditPropertyModal = ({closeEditModal}) => {
         }
     }, [listing, navigate])
 
-    useEffect(() => {
-        setLoading(true);
-        async function fetchListing() {
-            const docRef = doc(db, "listings", params.listingId)
-            const docSnap = await getDoc(docRef);
-            if(docSnap.exists()){
-                setListing(docSnap.data());
-                setFormData({...docSnap.data()})
-                setLoading(false)
-            }else {
-                navigate('/')
-                toast.error("Listing does not exist")
-            }
-        }
-        fetchListing()
-    }, [navigate, params.listingId])
+
 
     const onChange = (e) => {
     
@@ -157,12 +138,13 @@ const EditPropertyModal = ({closeEditModal}) => {
         };
         delete formDataCopy.images;
 
-        const docRef = doc(db, "listings", params.listingId);
+        const docRef = doc(db, "listings", id);
 
         await updateDoc(docRef, formDataCopy);
         setLoading(false);
         toast.success("Property Updated");
-        closeModal(false) 
+        closeEditModal()
+        window.location.reload();
     }
 
     if(loading) {
@@ -171,8 +153,8 @@ const EditPropertyModal = ({closeEditModal}) => {
 
     return (
         <div className=''>
-            <div className="items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none pt-28">
-                <div className="relative sm:w-[400px] md:w-[450px] lg:min-w-[500px] lg:max-w-[500px] mt-12 mx-auto">
+            <div className="items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                <div className="relative sm:w-[400px] md:w-[450px] lg:min-w-[500px] lg:max-w-[500px] mt-12 h-full">
                     {/*content*/}
                     <div className="bg-[#EFC7A2] border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none px-8">
                         {/*header*/}
@@ -182,7 +164,7 @@ const EditPropertyModal = ({closeEditModal}) => {
                         </h3>
                         <button
                             className="p-1 text-black text-sm leading-none font-semibold  absolute right-2 top-0"
-                            onClick={() => navigate('/profile')}>
+                            onClick={closeEditModal}>
                             <span className="text-black text-xl block outline-none focus:outline-none">
                             X
                             </span>
@@ -191,30 +173,35 @@ const EditPropertyModal = ({closeEditModal}) => {
                     {/*body*/}
                     <form onSubmit={onSubmit}>
                 
-                    <button 
-                        type='button' 
-                        id='type' 
-                        value='rent'
-                        onClick={onChange}
+                    <button
                         className="mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full bg-[#ce6c10] text-white cursor-default"
                     >Rent</button>
 
-                <p className='text-sm md:text-lg mt-6 font-semibold'>Name:</p>
+<p className='text-lg mt-3 font-semibold'>Address:</p>
                 <input 
                     type="text" 
-                    id='name' 
-                    value={name}
+                    id='address' 
+                    value={address}
                     onChange={onChange}
-                    placeholder='Name'
-                    maxLength="32"
-                    minLength="10"
+                    placeholder='Address'
                     required
-                    className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mg-6'
+                    className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'
+                />
+
+                <p className='text-lg mt-3 font-semibold'>City:</p>
+                <input 
+                    type="text" 
+                    id='city' 
+                    value={city}
+                    onChange={onChange}
+                    placeholder='City'
+                    required
+                    className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'
                 />
 
                 <div className="my-3">
                 <p className="text-lg font-semibold">House Type:</p>
-                <select id="houseType" value={houseType} onChange={onChange} className="w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600">
+                <select id="houseType" value={houseType} onChange={onChange} required className="w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600">
                     <option value="">Select House Type</option>
                     <option value="apartment">Apartment</option>
                     <option value="house">House</option>
@@ -222,6 +209,19 @@ const EditPropertyModal = ({closeEditModal}) => {
                     {/* Add more options as needed */}
                 </select>
                 </div>
+
+                <p className='text-lg font-semibold'>Description of the House:</p>
+                <textarea 
+                    type='text' 
+                    rows={4}
+                    id='description' 
+                    value={description}
+                    onChange={onChange}
+                    placeholder='Description'
+                    required
+                    className="w-full resize-none px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 whitespace-pre-line"
+                />
+
 
                 <div className='flex space-x-6 my-3'>
                     <div>
@@ -250,38 +250,7 @@ const EditPropertyModal = ({closeEditModal}) => {
                     </div>
                 </div>
 
-                <p className='text-lg mt-3 font-semibold'>Address:</p>
-                <input 
-                    type="text" 
-                    id='address' 
-                    value={address}
-                    onChange={onChange}
-                    placeholder='Address'
-                    required
-                    className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600'
-                />
-
-                <p className='text-lg mt-3 font-semibold'>City:</p>
-                <input 
-                    type="text" 
-                    id='city' 
-                    value={city}
-                    onChange={onChange}
-                    placeholder='City'
-                    required
-                    className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6'
-                />
-
-                <p className='text-lg font-semibold'>Description:</p>
-                <input 
-                    type='text' 
-                    id='description' 
-                    value={description}
-                    onChange={onChange}
-                    placeholder='Description'
-                    required
-                    className="w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 whitespace-pre-line"
-                />
+                
 
                 <div className="flex items-center my-3">
                 <p className="text-lg font-semibold mr-4">Parking Spot:</p>
@@ -325,7 +294,7 @@ const EditPropertyModal = ({closeEditModal}) => {
                             required
                             className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
                             />
-                            <p>Sqft</p>
+                            <p>Sqm</p>
                         </div>
                         
                     </div>
@@ -340,9 +309,16 @@ const EditPropertyModal = ({closeEditModal}) => {
                             type="number" 
                             id='Price' 
                             value={Price}
-                            onChange={onChange}
-                            min="50"
-                            max="1000000000"
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                // Check if the input is a valid float number
+                                if (/^\d*\.?\d*$/.test(value)) {
+                                    // Update the state with the new value
+                                    onChange(e);
+                                }
+                            }}
+                            min="1"
+                            max="999999999"
                             required
                             className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
                             />
