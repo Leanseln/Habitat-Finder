@@ -174,6 +174,9 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
                     <form onSubmit={onSubmit}>
                 
                     <button
+                        type="button"
+                        id="type"
+                        value="rent"
                         className="mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full bg-[#ce6c10] text-white cursor-default"
                     >Rent</button>
 
@@ -329,7 +332,7 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
                 </div>
                 
                 <div className="mb-6">
-                    <p className='text-lg font-semibold'>Images</p>
+                    <p className='text-lg font-semibold'>Images<span className='text-base font-normal'>(Please select again your images)</span></p>
                     
                     <input 
                         type="file"
@@ -340,7 +343,7 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
                         required 
                         className='w-full px-3 py-1.5 text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:border-slate-600'
                         />
-                        <p>Please select again your images</p>
+                        
                 </div>
 
                 <button type='submit' className='mb-6 w-full px-7 py-3 bg-[#ce6c10] text-white font-medium text-sm uppercase rounded shadow-md hover:bg-[#BD5B00] hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-[#8a4300] active:shadow-lg transition duration-150 ease-in-out'

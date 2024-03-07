@@ -17,12 +17,14 @@ const AddPropertyModal = ({closeModal}) => {
 
 
     const [formData, setFormData] = useState({
+        type: "rent",
         bedrooms: 1,
         bathrooms: 1,
         address: '',
         city: '',
         floorArea: 0,
         parking: false,
+        furnished: false,
         description: '',
         Price: 0.0,
         images: {},
@@ -30,12 +32,14 @@ const AddPropertyModal = ({closeModal}) => {
     });
 
     const {
+        type,
         bedrooms, 
         bathrooms, 
         address, 
         floorArea,
         city,
         parking,
+        furnished,
         description, 
         Price, 
         images,
@@ -69,6 +73,14 @@ const AddPropertyModal = ({closeModal}) => {
                 parking: e.target.value === "true", // Set based on value
             }));
         }
+
+        if (e.target.name === 'furnished') {
+            setFormData((prevState) => ({
+                ...prevState,
+                furnished: e.target.value === "true", // Set based on value
+            }));
+        }
+
         if (e.target.id === 'houseType') {
             setFormData((prevState) => ({
                 ...prevState,
@@ -179,6 +191,9 @@ const AddPropertyModal = ({closeModal}) => {
                     <form onSubmit={onSubmit}>
                 
                     <button
+                        type="button"
+                        id="type"
+                        value="rent"
                         className="mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full bg-[#ce6c10] text-white cursor-default"
                     >Rent</button>
 
@@ -208,9 +223,9 @@ const AddPropertyModal = ({closeModal}) => {
                 <p className="text-lg font-semibold">House Type:</p>
                 <select id="houseType" value={houseType} onChange={onChange} className="w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600">
                     <option value="">Select House Type</option>
-                    <option value="apartment">Apartment</option>
-                    <option value="house">House</option>
-                    <option value="condo">Condo</option>
+                    <option value="Apartment">Apartment</option>
+                    <option value="House">House</option>
+                    <option value="Condo">Condo</option>
                     {/* Add more options as needed */}
                 </select>
                 </div>
@@ -256,7 +271,7 @@ const AddPropertyModal = ({closeModal}) => {
 
                 
 
-                <div className="flex items-center my-3">
+                <div className="flex items-center my-5">
                 <p className="text-lg font-semibold mr-4">Parking Spot:</p>
                 <div className="flex items-center space-x-4">
                     <input
@@ -280,6 +295,33 @@ const AddPropertyModal = ({closeModal}) => {
                     className="w-4 h-4 border-gray-300 rounded-full focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     />
                     <label htmlFor="noparking">No</label>
+                </div>
+                </div>
+
+                <div className="flex items-center my-5">
+                <p className="text-lg font-semibold mr-4">Furnished:</p>
+                <div className="flex items-center space-x-4">
+                    <input
+                    type="radio"
+                    id="yesfurnished"
+                    name="furnished"
+                    value={true}
+                    onChange={onChange}
+                    checked={furnished}
+                    className="w-4 h-4 border-gray-300 rounded-full focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    />
+                    <label htmlFor="yesfurnished">Yes</label>
+
+                    <input
+                    type="radio"
+                    id="nofurnished"
+                    name="furnished"
+                    value={false}
+                    onChange={onChange}
+                    checked={!furnished}
+                    className="w-4 h-4 border-gray-300 rounded-full focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    />
+                    <label htmlFor="nofurnished">No</label>
                 </div>
                 </div>
 
@@ -333,7 +375,7 @@ const AddPropertyModal = ({closeModal}) => {
                 </div>
                 
                 <div className="mb-6">
-                    <p className='text-lg font-semibold'>Images</p>
+                    <p className='text-lg font-semibold'>Images <span className='text-base font-normal'>(The first image will be the thumbnail)</span></p>
                     
                     <input 
                         type="file"

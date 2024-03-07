@@ -8,6 +8,7 @@ import { db } from '../firebase'
 import Loading from '../components/Loading'
 import { FaBed, FaBath, FaParking } from "react-icons/fa";
 import Footer from '../components/Footer'
+import { Carousel } from '@material-tailwind/react'
 
 const PropertyDetailPage = () => {
 
@@ -42,23 +43,25 @@ const PropertyDetailPage = () => {
                     <p className='mb-5 flex text-3xl items-center font-semibold'>
                         {listing.city}, Philippines
                     </p>
+                    <Carousel className="h-[200px] w-[400px] sm:h-[300px] sm:w-[500px] lg:h-[450px] lg:w-[800px] object-fit">
+                        {listing.imgUrls.map((image, index) =>
                     <div className='flex gap-5'>
-                        <img src={listing.imgUrls[0]} alt="imahe" 
+                        <img src={image} alt={`Imahe ${index}`} 
                         className='h-[200px] w-[400px] sm:h-[300px] sm:w-[500px] lg:h-[450px] lg:w-[800px] object-fit' />
-                        
                     </div>
-                    
+                    )}
+                    </Carousel>
                     <p className='flex text-[20px] items-center mt-6 font-semibold text-[#4B2C1A]'>
                         {listing.address}
                     </p>
 
                     <ul className='flex items-center whitespace-nowrap space-x-5 my-3 font-medium text-[#4B2C1A] '>
-                        <li className='flex items-center whitespace-nowrap'><FaBed size={20} className='mr-1 text-amber-700' /> {listing.bedrooms > 1 ? `${listing.bedrooms} Beds` : "1 Bed"}</li>
-                        <li className='flex items-center whitespace-nowrap'><FaBath size={20} className='mr-1 text-amber-700' /> {listing.baths > 1 ? `${listing.baths} Baths` : "1 Bath"}</li>
-                        <li className='flex items-center whitespace-nowrap'><FaParking size={20} className='mr-1 text-amber-700' /> {listing.parking ? "Parking Spot" : "No Parking"}</li>
+                        <li className='flex items-center whitespace-nowrap'><FaBed size={20} className='mr-1 text-[#b35c15]' /> {listing.bedrooms > 1 ? `${listing.bedrooms} Beds` : "1 Bed"}</li>
+                        <li className='flex items-center whitespace-nowrap'><FaBath size={20} className='mr-1 text-[#b35c15]' /> {listing.baths > 1 ? `${listing.baths} Baths` : "1 Bath"}</li>
+                        <li className='flex items-center whitespace-nowrap'><FaParking size={20} className='mr-1 text-[#b35c15]' /> {listing.parking ? "Parking Spot" : "No Parking"}</li>
                     </ul>
 
-                    <p className='flex items-center font-semibold text-xl text-[#ff6947] mb-6'>
+                    <p className='flex items-center font-semibold text-xl text-[#d8681d] mb-6'>
                         ₱ {listing.Price
                         .toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
@@ -66,7 +69,7 @@ const PropertyDetailPage = () => {
                     </p>
 
                     <p className='flex flex-col text-[#4B2C1A] font-medium mb-6 w-[400px] sm:w-[500px] lg:w-[800px]'>
-                        <span className='text-xl mb-1'>Description</span>
+                        <span className='text-xl mb-1 font-semibold'>Description</span>
                         {listing.description}
                     </p>
 
@@ -98,7 +101,7 @@ const PropertyDetailPage = () => {
                                 </div>
                                 <div className='flex justify-between border-[1px] border-[#4B2C1A] px-1'>
                                     <p>Price</p>
-                                    <p>₱{listing.Price}</p>
+                                    <p>₱{listing.Price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") }</p>
                                 </div>
                             </div>
                         </div>
