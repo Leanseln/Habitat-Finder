@@ -11,6 +11,8 @@ import VerifyPage from "./components/VerifyPage";
 import EditPropertyModal from "./components/EditPropertyModal";
 import Cars from './components/Cars'
 import Carousels from "./components/Carousels";
+import About from "./pages/About";
+import Terms from "./pages/TermsAndCondition";
 
 function App() {
   
@@ -28,6 +30,8 @@ function App() {
           <Route path="/property/:listingId" element={<PropertyDetailPage />} />
           <Route path="/swiper" element={<Cars />} />
           <Route path="cars" element={<Carousels />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/terms" element={<Terms />} />
           
         </Routes>
       </BrowserRouter>
