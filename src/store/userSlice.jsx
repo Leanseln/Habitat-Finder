@@ -44,4 +44,4 @@ export const userSlice = createSlice ({
 })
 
 export default userSlice.reducer
-export const { setCredentials, logout, verify } = userSlice.actions
+export const { setCredentials, logout, verify, updateInfo } = userSlice.actions

@@ -9,6 +9,7 @@ import Loading from '../components/Loading'
 import { FaBed, FaBath, FaParking } from "react-icons/fa";
 import Footer from '../components/Footer'
 import { Carousel } from '@material-tailwind/react'
+import Contact from '../components/Contact'
 
 const PropertyDetailPage = () => {
 
@@ -16,6 +17,7 @@ const PropertyDetailPage = () => {
     const params = useParams();
     const [loading, setLoading] = useState(true);
     const [listing, setListing] = useState(null);
+    const [contactLandlord, setContactLandlord] = useState(false);
     
     useEffect(() => {
         async function fetchListing() {
@@ -106,13 +108,27 @@ const PropertyDetailPage = () => {
                             </div>
                         </div>
 
-                        <div className='flex justify-between px-5 border-[1px] bg-[#ec9a6a] py-3 rounded gap-2'>
+                        <div className='flex flex-col text-[#4B2C1A] font-medium mb-6 w-[400px] sm:w-[500px] lg:w-[800px]'>
+                        <p className='text-xl mb-1 font-semibold hidden'>Contact Details</p>
+                        <p className='hidden'>Gmail: <span className='font-semibold hidden'>{listing.userEmail}</span></p>
+                        </div>
+
+                        <div className='flex-col flex'>
+                            <div className='flex justify-between px-5 border-[1px] bg-[#ec9a6a] py-3 rounded gap-2'>
                             <div className='flex flex-col justify-center items-center font-semibold text-[12px] sm:text-base'>
                                 <p>Do you have any questions about this property?</p>
                                 <p>Connect with the owner</p>
                             </div>
-                            <button className='bg-green-600 text-white font-semibold rounded px-2 text-[12px] sm:text-sm'>Get Connected</button>
+                            <button className='bg-green-600 text-white font-semibold rounded px-2 text-[12px] sm:text-sm'
+                            onClick={() => setContactLandlord(true)}
+                            >Get Connected</button>
+                            </div>
+                        {contactLandlord && (
+                            <Contact userRef={listing.userRef} listing={listing} />
+                        )}
                         </div>
+                        
+                        
 
                     </div>
                 </div>

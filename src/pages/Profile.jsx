@@ -12,7 +12,7 @@ import EditPropertyModal from '../components/EditPropertyModal';
 import PP from '../images/profile.png'
 import { TbEdit } from "react-icons/tb";
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../store/userSlice';
+import { logout, updateInfo } from '../store/userSlice';
 import Footer from '../components/Footer';
 
 const Profile = () => {
@@ -110,8 +110,12 @@ const Profile = () => {
                 await updateDoc(docRef, {
                 name,
                 });
+                dispatch(updateInfo(({
+                    displayName: name,
+                })));
+                toast.success("Profile details updated");
             }
-            toast.success("Profile details updated");
+            
             } catch (error) {
             toast.error("Could not update the profile details");
             }
@@ -136,8 +140,12 @@ const Profile = () => {
                             id='photo'
                             disabled={!changeDetail}
                             className='w-[80px] h-[80px] sm:w-[160px] sm:h-[160px] rounded-full object-cover' />
-                            <input type="file" name='pp' id="pp" className='absolute right-3 bottom-4 text-amber-1000 hover:scale-105 cursor-pointer hidden' />
-                            <label htmlFor="pp" className='absolute right-3 bottom-4 text-amber-1000 hover:scale-105 cursor-pointer hidden'><TbEdit size={20}/></label>
+                            <input 
+                                type="file" 
+                                name='pp' 
+                                id="pp" 
+                                className={`absolute right-3 bottom-4 text-amber-1000 hover:scale-105 cursor-pointer hidden && ${!changeDetail ? "hidden" : "block"}`} />
+                            <label htmlFor="pp" className={`absolute right-3 bottom-4 text-amber-1000 hover:scale-105 cursor-pointer hidden ${!changeDetail ? "hidden" : "block"}`}><TbEdit size={20}/></label>
                         </div>
                         </div>
                     <form className=''>

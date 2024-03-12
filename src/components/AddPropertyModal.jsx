@@ -153,7 +153,8 @@ const AddPropertyModal = ({closeModal}) => {
             ...formData,
             imgUrls,
             timestamp: serverTimestamp(),
-            userRef: auth.currentUser.uid
+            userRef: auth.currentUser.uid,
+            userEmail: auth.currentUser.email,
         };
         delete formDataCopy.images;
         const docRef = await addDoc(collection(db, "listings"), formDataCopy);
