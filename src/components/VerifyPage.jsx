@@ -46,7 +46,7 @@ const VerifyPage = () => {
 
 
     return (
-        <div className="max-w-screen-2xl max-h-screen mx-auto px-4 overflow-hidden">
+        <div className="max-w-screen-2xl h-full mx-auto px-4 overflow-hidden">
 
         <div className="flex justify-center h-scree p-5">
             <div className="flex w-full flex-col justify-center items-center">

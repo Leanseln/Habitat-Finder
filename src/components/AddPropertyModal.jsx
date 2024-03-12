@@ -170,9 +170,10 @@ const AddPropertyModal = ({closeModal}) => {
 
 
     return (
+        
         <div className=''>
-            <div className="items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                <div className="relative sm:w-[400px] md:w-[450px] lg:min-w-[500px] lg:max-w-[500px] mt-12 h-full">
+            <div className="items-center flex justify-center overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none">
+                <div className="relative sm:w-[400px] md:w-[450px] lg:min-w-[500px] lg:max-w-[500px] mt-12 h-full overflow-y-auto">
                     {/*content*/}
                     <div className="bg-[#EFC7A2] border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none px-8">
                         {/*header*/}
@@ -391,6 +392,24 @@ const AddPropertyModal = ({closeModal}) => {
             </div>
             
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+
+            <style>
+                    {`
+                        ::-webkit-scrollbar {
+                            width: 10px; 
+                        }
+                        ::-webkit-scrollbar-track {
+                            background-color: transparent; 
+                        }
+                        ::-webkit-scrollbar-thumb {
+                            background-color: transparent; 
+                            border-radius: 5px;
+                        }
+                        ::-webkit-scrollbar-thumb:hover {
+                            background-color: transparent; 
+                        }
+                    `}
+                </style>
             
         </div>
     )

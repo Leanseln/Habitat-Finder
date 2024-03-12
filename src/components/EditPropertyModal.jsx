@@ -151,6 +151,7 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
 
     return (
         <div className=''>
+            
             <div className="items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                 <div className="relative sm:w-[400px] md:w-[450px] lg:min-w-[500px] lg:max-w-[500px] mt-12 h-full">
                     {/*content*/}
@@ -373,6 +374,23 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
             
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
             
+            <style>
+                    {`
+                        ::-webkit-scrollbar {
+                            width: 10px; 
+                        }
+                        ::-webkit-scrollbar-track {
+                            background-color: transparent; 
+                        }
+                        ::-webkit-scrollbar-thumb {
+                            background-color: transparent; 
+                            border-radius: 5px;
+                        }
+                        ::-webkit-scrollbar-thumb:hover {
+                            background-color: transparent; 
+                        }
+                    `}
+                </style>
         </div>
     )
 }
