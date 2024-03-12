@@ -5,10 +5,9 @@ import { FaTrash } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { collection } from 'firebase/firestore';
 import { db } from '../firebase';
+import { FaCheck, FaX } from "react-icons/fa6";
 
-export default function PropertyCard({ listing, id, onDelete, onEdit }) {
-    
-    
+export default function PropertyCard({ listing, id, onDelete, onEdit, Approved, notApproved }) {
     const result = moment(listing.timestamp?.toDate()).fromNow();
 
         return (
@@ -53,7 +52,7 @@ export default function PropertyCard({ listing, id, onDelete, onEdit }) {
                 onDelete && (
                     <FaTrash 
                     className='absolute bottom-2 right-2 h-[14px] cursor-pointer text-red-500'
-                    onClick={()=>onDelete(listing.id)}
+                    onClick={()=> onDelete(listing.id)}
                     />
                 )
             }
@@ -61,7 +60,23 @@ export default function PropertyCard({ listing, id, onDelete, onEdit }) {
                 onEdit && (
                     <MdEdit 
                     className='absolute bottom-2 right-7 h-[14px] cursor-pointer text-green-500'
-                    onClick={()=>onEdit(listing.id)}
+                    onClick={()=> onEdit(listing.id)}
+                    />
+                )
+            }
+            {
+                notApproved && (
+                    <FaX 
+                    className='absolute bottom-2 right-2 h-[14px] cursor-pointer text-red-500'
+                    onClick={()=> notApproved(listing.id)}
+                    />
+                )
+            }
+            {
+                Approved && (
+                    <FaCheck 
+                    className='absolute bottom-2 right-7 h-[14px] cursor-pointer text-green-500'
+                    onClick={()=>Approved(listing.id)}
                     />
                 )
             }

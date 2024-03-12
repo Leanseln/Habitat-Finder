@@ -193,7 +193,7 @@ const AddPropertyModal = ({closeModal}) => {
                     <button
                         type="button"
                         id="type"
-                        value="rent"
+                        value={type}
                         className="mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full bg-[#ce6c10] text-white cursor-default"
                     >Rent</button>
 
@@ -352,18 +352,12 @@ const AddPropertyModal = ({closeModal}) => {
                         </p>
                         <div className="flex justify-center items-center space-x-6">
                             <input 
-                            type="number" 
+                            type="number"
+                            step="0.01"
                             id='Price' 
                             value={Price}
-                            onChange={(e) => {
-                                const value = e.target.value;
-                                // Check if the input is a valid float number
-                                if (/^\d*\.?\d*$/.test(value)) {
-                                    // Update the state with the new value
-                                    onChange(e);
-                                }
-                            }}
-                            min="50"
+                            onChange={onChange}
+                            min="0"
                             max="1000000000"
                             required
                             className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'

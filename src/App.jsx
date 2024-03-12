@@ -9,8 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import PropertyDetailPage from "./pages/PropertyDetailPage";
 import VerifyPage from "./components/VerifyPage";
 import EditPropertyModal from "./components/EditPropertyModal";
-import Cars from './components/Cars'
-import Carousels from "./components/Carousels";
+import Admin from "./pages/Admin";
 
 function App() {
   
@@ -26,9 +25,7 @@ function App() {
           <Route path="/landingpage" element={<LandingPage />} />
           <Route path="/editproperty/:listingId" element={<EditPropertyModal />} />
           <Route path="/property/:listingId" element={<PropertyDetailPage />} />
-          <Route path="/swiper" element={<Cars />} />
-          <Route path="cars" element={<Carousels />} />
-          
+          <Route path="/administrator" element={<Admin />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer

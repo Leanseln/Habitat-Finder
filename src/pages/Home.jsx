@@ -26,8 +26,7 @@ const Home = () => {
             const q = query(
             listingsRef,
             where("type", "==", "rent"),
-            orderBy("timestamp", "desc"),
-            limit(10)
+            orderBy("timestamp", "desc")
             );
             // execute the query
             const querySnap = await getDocs(q);

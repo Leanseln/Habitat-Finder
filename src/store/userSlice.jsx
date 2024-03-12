@@ -28,6 +28,17 @@ export const userSlice = createSlice ({
                 return newUser;
             }
             return state; // Return the original state if no user is found
+        },
+        updateInfo: (state, action) => {
+            if (state) {
+                const newUser = {
+                    ...state,
+                    ...action.payload,
+                };
+                localStorage.setItem('userInfo', JSON.stringify(newUser));
+                return newUser;
+            }
+            return state;
         }
     }
 })

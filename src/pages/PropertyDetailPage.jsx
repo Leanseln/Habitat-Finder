@@ -100,8 +100,8 @@ const PropertyDetailPage = () => {
                                     <p>{listing.houseType}</p>
                                 </div>
                                 <div className='flex justify-between border-[1px] border-[#4B2C1A] px-1'>
-                                    <p>Price</p>
-                                    <p>₱{listing.Price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") }</p>
+                                    <p>Furnished</p>
+                                    <p>{listing.furnished ? "Furnished" : "Not Furnished"}</p>
                                 </div>
                             </div>
                         </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { getAuth } from 'firebase/auth'
+import { getAuth, updateProfile } from 'firebase/auth'
 import { useNavigate } from 'react-router';
-import { collection, getDocs, orderBy, query, where, deleteDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query, where, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import PropertyCard from '../components/PropertyCard';
 import { toast } from 'react-toastify';
@@ -96,16 +96,17 @@ const Profile = () => {
         fetchUserListing();
     }, [user?.uid])
 
-    async function SaveEdit() {
+    async function nameChange() {
         try {
-            if (user.displayName !== name) {
+            if (auth.currentUser.displayName !== name) {
                 //update display name in firebase auth
-                await updateProfile(user, {
+                await updateProfile(auth.currentUser, {
                 displayName: name,
                 });
         
                 // update name in the firestore
-                const docRef = doc(db, "users", user.uid);
+        
+                const docRef = doc(db, "users", auth.currentUser.uid);
                 await updateDoc(docRef, {
                 name,
                 });
@@ -134,13 +135,12 @@ const Profile = () => {
                             alt='Profile Picture'
                             id='photo'
                             disabled={!changeDetail}
-                            className='w-[80px] h-[80px] sm:w-[160px] sm:h-[160px] rounded-full object-cover hover:scale-105' />
+                            className='w-[80px] h-[80px] sm:w-[160px] sm:h-[160px] rounded-full object-cover' />
                             <input type="file" name='pp' id="pp" className='absolute right-3 bottom-4 text-amber-1000 hover:scale-105 cursor-pointer hidden' />
                             <label htmlFor="pp" className='absolute right-3 bottom-4 text-amber-1000 hover:scale-105 cursor-pointer hidden'><TbEdit size={20}/></label>
                         </div>
                         </div>
                     <form className=''>
-                        
                         {/* name input */}
                         <div className='w-full py-5 sm:py-10'>
                         <label htmlFor="name" className='mb-2 text-sm font-medium text-gray-900 dark:text-white'>Name</label>
@@ -150,7 +150,7 @@ const Profile = () => {
                             value={name}
                             disabled={!changeDetail}
                             onChange={onChange}
-                            className={`w-full px-4 py-1 text-sm sm:text-base text-gray-700 bg-[#EFC7A2] border-[1px] border-black transition ease-in-out mb-3 &&${changeDetail && "bg-red-200 focus:bg-red-200"}`} />
+                            className={`w-full px-4 py-1 text-sm sm:text-base text-gray-700 bg-[#EFC7A2] border-[1px] border-black transition ease-in-out mb-3 &&${changeDetail && "bg-blue-200 focus:bg-blue-200"}`} />
 
                         {/* email input */}
                         <label htmlFor="email" className='mb-2 text-sm font-medium text-gray-900 dark:text-white'>Email</label>
@@ -161,13 +161,13 @@ const Profile = () => {
                             disabled
                             className='w-full px-4 py-1 text-sm sm:text-base text-gray-700 bg-[#EFC7A2] border-[1px] border-black transition ease-in-out mb-3 ' />
 
-                        <div className='flex justify-end text-sm sm:text-lg'>
-                        <p className="hidden items-center text-red-600 hover:text-red-700 transition ease-in-out duration-200 ml-1 cursor-pointer"
+                        <div className='flex justify-between text-sm sm:text-lg'>
+                        <p className="items-center text-blue-500 transition ease-in-out duration-200 ml-1 cursor-pointer"
                         onClick={() => {
-                            changeDetail && SaveEdit();
+                            changeDetail && nameChange();
                             setChangeDetail((prevState) => !prevState);
                         }}>
-                            {changeDetail ? "Apply change" : "Edit"}
+                            {changeDetail ? "Apply change" : "Change Name"}
                         </p>
 
                             <p

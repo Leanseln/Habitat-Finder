@@ -24,6 +24,7 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
         description: '',
         city: '',
         parking: false,
+        furnished: false,
         floorArea: 0,
         Price: 0,
         images: {},
@@ -36,14 +37,12 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
         bathrooms, 
         address, 
         parking,
+        furnished,
         floorArea,
         houseType,
         description, 
         Price, 
         images } = formData;
-
-
-    const params = useParams()
 
     useEffect(()=>{
         if(listing && listing.userRef !== auth.currentUser.uid){
@@ -55,7 +54,6 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
 
 
     const onChange = (e) => {
-    
         if(e.target.files){
             setFormData((prevState) =>({
                 ...prevState,
@@ -176,7 +174,6 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
                     <button
                         type="button"
                         id="type"
-                        value="rent"
                         className="mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full bg-[#ce6c10] text-white cursor-default"
                     >Rent</button>
 
@@ -282,6 +279,33 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
                 </div>
                 </div>
 
+                <div className="flex items-center my-5">
+                <p className="text-lg font-semibold mr-4">Furnished:</p>
+                <div className="flex items-center space-x-4">
+                    <input
+                    type="radio"
+                    id="yesfurnished"
+                    name="furnished"
+                    value={true}
+                    onChange={onChange}
+                    checked={furnished}
+                    className="w-4 h-4 border-gray-300 rounded-full focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    />
+                    <label htmlFor="yesfurnished">Yes</label>
+
+                    <input
+                    type="radio"
+                    id="nofurnished"
+                    name="furnished"
+                    value={false}
+                    onChange={onChange}
+                    checked={!furnished}
+                    className="w-4 h-4 border-gray-300 rounded-full focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    />
+                    <label htmlFor="nofurnished">No</label>
+                </div>
+                </div>
+
                 <div className="flex items-center my-3">
                     <div className="">
                         <p className='text-lg font-semibold'>
@@ -310,17 +334,11 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
                         <div className="flex justify-center items-center space-x-6">
                             <input 
                             type="number" 
+                            step="0.01"
                             id='Price' 
                             value={Price}
-                            onChange={(e) => {
-                                const value = e.target.value;
-                                // Check if the input is a valid float number
-                                if (/^\d*\.?\d*$/.test(value)) {
-                                    // Update the state with the new value
-                                    onChange(e);
-                                }
-                            }}
-                            min="1"
+                            onChange={onChange}
+                            min="0"
                             max="999999999"
                             required
                             className='w-full px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center'
