@@ -24,12 +24,12 @@ const LandingPage = () => {
         <Header />
             <div className="w-full h-screen flex-grow bg-cover bg-center bg-no-blur flex  overflow-x-auto"
                     style={{ backgroundImage: `url(${LandingPage1})` }}>
-                <div className="w-full md:pr-8 md:pl-4 sm:items-center text-center  ml-16 md:mr-5 s:mr-16 mt-32">
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-9xl font-extrabold mb-10 lg:mb-24 text-[#994b03bd] text-center font-monteserrat">Looking for a House?</h1>
+                <div className="w-full md:pr-8 md:pl-4 sm:items-center text-center  ml-16 md:mr-5 s:mr-16 mt-6">
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-2 lg:mb-24 text-[#994b03bd] text-center font-monteserrat">Looking for a House?</h1>
                     <div className="w-full lg:w-1/2 mx-auto">
 
                     
-                    <p className="text-[14px] sm:text-[16px] md:text-[18px] w-full lg:text-xl text-[#744c38] mb-10 lg:mb-20 text-center items-center  font-monteserrat">Set off on an adventure to explore the allure of renting, where a world of exquisite and comfortable houses awaits you at every corner, beckoning you to make priceless memories in settings that beckon tales of coziness and warmth.</p></div>
+                    <p className="text-[14px] sm:text-[16px] md:text-[18px] w-full lg:text-xl text-[#744c38] mb-10 lg:mb-16 text-center items-center  font-monteserrat">Set off on an adventure to explore the allure of renting, where a world of exquisite and comfortable houses awaits you at every corner, beckoning you to make priceless memories in settings that beckon tales of coziness and warmth.</p></div>
                     
                     <div className="flex justify-center">
                     <button className="bg-[#CBB89D] border text-sm md:text-base border-[#412F26] hover:bg-[#412F26] hover:text-white font-semibold py-1 md:py-2 px-4 rounded mt-4 lg:mt-0 flex justify-center items-center"
@@ -42,13 +42,13 @@ const LandingPage = () => {
     <div
         className="w-screen h-screen bg-cover bg-center bg-no-blur mx-auto flex justify-center"
         style={{ backgroundImage: `url(${LandingPage2})`   }} >
-            <div className="lg:w-5/6 mt-56">
+            <div className="lg:w-5/6 mt-10">
                 <div className="mb-16">
-                    <h1 className="text-4xl font-bold mb-5 lg:text-7xl text-[#994b03bd]">Real Community</h1>
-                    <h1 className="text-4xl font-bold mb-5 lg:text-7xl text-[#994b03bd]">Real Connections</h1>
+                    <h1 className="text-xl font-bold mb-5 lg:text-7xl text-[#994b03bd]">Real Community</h1>
+                    <h1 className="text-xl font-bold mb-5 lg:text-7xl text-[#994b03bd]">Real Connections</h1>
                 </div>
                 
-                <p className="text-sm lg:text-2xl text-[#412F26] lg:w-[55%] mb-4 lg:mb-0 sm:pl-3 sm:pr-5 mt-0">
+                <p className="text-sm lg:text-2xl text-[#412F26] lg:w-[65%] mb-4 lg:mb-0 sm:pl-3 sm:pr-5 mt-0">
                 A vital way for people to obtain a home that meets their needs and allows them flexibility and accessibility without the commitment of homeownership is through renting. Whether it's a large home tucked away in the suburbs or a quaint apartment in the middle of the city, rentals act as a link to help single people and families alike discover a suitable and pleasant place to live. Renting provides the flexibility to adjust to changing lifestyles while guaranteeing a secure and friendly home for everyone in a society where mobility and shifting circumstances are the norm.
                 </p>
             </div>
