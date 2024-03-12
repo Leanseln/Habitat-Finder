@@ -370,7 +370,7 @@ const AddPropertyModal = ({closeModal}) => {
                 </div>
                 
                 <div className="mb-6">
-                    <p className='text-lg font-semibold'>Images <span className='text-base font-normal'>(The first image will be the thumbnail)</span></p>
+                    <p className='text-lg font-semibold'>Images <span className='text-base font-normal'>(The first image will be the thumbnail(15 max))</span></p>
                     
                     <input 
                         type="file"
