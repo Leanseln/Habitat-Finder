@@ -139,7 +139,7 @@ const Profile = () => {
                             alt='Profile Picture'
                             id='photo'
                             disabled={!changeDetail}
-                            className='w-[80px] h-[80px] sm:w-[160px] sm:h-[160px] rounded-full object-cover' />
+                            className='w-full sm:w-[160px] sm:h-[160px] rounded-full object-cover' />
                             <input 
                                 type="file" 
                                 name='pp' 
