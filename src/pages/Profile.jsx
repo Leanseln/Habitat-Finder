@@ -20,6 +20,8 @@ const Profile = () => {
     const auth = getAuth();
     const navigate = useNavigate();
     const [listings, setListings] = useState(null);
+    const [declinedListings, setDeclinedListings] = useState(null);
+    const [pendingListings, setPendingListings] = useState(null);
     const [changeDetail, setChangeDetail] = useState(false);
     const [loading, setLoading] = useState(true);
     const [showPropertyModal, setShowPropertyModal] = useState(false);
@@ -116,7 +118,9 @@ const Profile = () => {
         const fetchUserListing = async () => {
 
             const listingRef = collection(db, "listings");
-            const q = query(listingRef, where("userRef", "==", user?.uid),
+            const q = query(listingRef, 
+                where("userRef", "==", user?.uid), 
+                where("type", "==", "approved") ,
                 orderBy("timestamp", "desc")
             );
             const querySnap = await getDocs(q);
@@ -128,6 +132,52 @@ const Profile = () => {
                 });
             });
             setListings(listings);
+            setLoading(false);
+        }
+        fetchUserListing();
+    }, [user?.uid])
+
+    useEffect(() => {
+        const fetchUserListing = async () => {
+
+            const listingRef = collection(db, "listings");
+            const q = query(listingRef, 
+                where("userRef", "==", user?.uid,),
+                where("type", "==", "declined"),
+                orderBy("timestamp", "desc")
+            );
+            const querySnap = await getDocs(q);
+            let listings = [];
+            querySnap.forEach((doc) => {
+                return listings.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
+            });
+            setDeclinedListings(listings);
+            setLoading(false);
+        }
+        fetchUserListing();
+    }, [user?.uid])
+
+    useEffect(() => {
+        const fetchUserListing = async () => {
+
+            const listingRef = collection(db, "listings");
+            const q = query(listingRef, 
+                where("userRef", "==", user?.uid),
+                where("type", "==", "pending"),
+                orderBy("timestamp", "desc")
+            );
+            const querySnap = await getDocs(q);
+            let listings = [];
+            querySnap.forEach((doc) => {
+                return listings.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
+            });
+            setPendingListings(listings);
             setLoading(false);
         }
         fetchUserListing();
@@ -233,7 +283,7 @@ const Profile = () => {
             </section>
             <section>
             <div className='max-w-6xl px-3 mt-6 mx-auto'>
-                {!loading && listings.length > 0 && (
+                {!loading && listings?.length > 0 && (
                     <>
                         <h2 className='text-2xl text-start font-semibold mb-6'>My Property</h2>
                         <ul className='grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-6 mb-6 gap-4'>
@@ -244,6 +294,46 @@ const Profile = () => {
                                     listing={listing.data}
                                     Approved={() => onApproved(listing.id)}
                                     notApproved={() => onNotApproved(listing.id)}
+                                />
+                            ))}
+                        </ul>
+                    </>
+                )}
+            </div>
+            </section>
+            <section>
+            <div className='max-w-6xl px-3 mt-6 mx-auto'>
+                {!loading && pendingListings?.length > 0 && (
+                    <>
+                        <h2 className='text-2xl text-start font-semibold mb-6'>Pending</h2>
+                        <ul className='grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-6 mb-6 gap-4'>
+                            {pendingListings.map((listing) => (
+                                <PropertyCard
+                                    key={listing.id}
+                                    id={listing.id}
+                                    listing={listing.data}
+                                    onDelete={() => onDelete(listing.id)}
+                                    onEdit={() => onEdit(listing.id)}
+                                />
+                            ))}
+                        </ul>
+                    </>
+                )}
+            </div>
+            </section>
+            <section>
+            <div className='max-w-6xl px-3 mt-6 mx-auto'>
+                {!loading && declinedListings?.length > 0 && (
+                    <>
+                        <h2 className='text-2xl text-start font-semibold mb-6'>Declined</h2>
+                        <ul className='grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-6 mb-6 gap-4'>
+                            {declinedListings.map((listing) => (
+                                <PropertyCard
+                                    key={listing.id}
+                                    id={listing.id}
+                                    listing={listing.data}
+                                    onDelete={() => onDelete(listing.id)}
+                                    onEdit={() => onEdit(listing.id)}
                                 />
                             ))}
                         </ul>

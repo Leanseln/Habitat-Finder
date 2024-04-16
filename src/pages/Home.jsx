@@ -25,7 +25,7 @@ const Home = () => {
             // create the query
             const q = query(
             listingsRef,
-            where("type", "==", "rent"),
+            where("type", "==", "approved"),
             orderBy("timestamp", "desc")
             );
             // execute the query

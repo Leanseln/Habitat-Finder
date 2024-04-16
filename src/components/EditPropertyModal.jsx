@@ -18,6 +18,7 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
     
     console.log(data)
     const [formData, setFormData] = useState(data[0] || {
+        type: "pending",
         bedrooms: 1,
         bathrooms: 1,
         address: '',
@@ -32,6 +33,7 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
     });
 
     const {
+        type,
         bedrooms, 
         city,
         bathrooms, 
@@ -175,6 +177,7 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
                     <button
                         type="button"
                         id="type"
+                        value={type}
                         className="mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full bg-[#ce6c10] text-white cursor-default"
                     >Rent</button>
 

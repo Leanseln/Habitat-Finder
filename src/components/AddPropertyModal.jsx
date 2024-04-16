@@ -17,7 +17,7 @@ const AddPropertyModal = ({closeModal}) => {
 
 
     const [formData, setFormData] = useState({
-        type: "rent",
+        type: "pending",
         bedrooms: 1,
         bathrooms: 1,
         address: '',
