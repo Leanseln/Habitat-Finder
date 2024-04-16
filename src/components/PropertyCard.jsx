@@ -76,7 +76,7 @@ export default function PropertyCard({ listing, id, onDelete, onEdit, Approved, 
                 Approved && (
                     <FaCheck 
                     className='absolute bottom-2 right-7 h-[14px] cursor-pointer text-green-500'
-                    onClick={()=>Approved(listing.id)}
+                    onClick={()=> Approved(listing.id)}
                     />
                 )
             }

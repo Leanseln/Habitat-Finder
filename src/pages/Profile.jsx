@@ -32,6 +32,7 @@ const Profile = () => {
         name: user?.displayName ?? '',
         email: user?.email ?? '',
         photo: user?.photoURL ?? '',
+        type: 'pending',
     })
 
     const { name, email, photo } = formData;
@@ -72,6 +73,42 @@ const Profile = () => {
     const onEdit = (listingID) => {
         setEditId(listingID)
         setShowEditPropertyModal(true)
+    }
+
+    const onApproved = async (listingID) => {
+        // Update state first (optional, can be combined)
+        setFormData({ ...formData, type: "pending" });
+      
+        try {
+          // Reference the document to update (replace with your logic)
+          const listingRef = doc(collection(db, "listings"), listingID);
+      
+          // Update the type field
+          await updateDoc(listingRef, "type", "pending");
+      
+          console.log("Listing type updated successfully!");
+        } catch (error) {
+          console.error("Error updating listing type:", error);
+          // Handle errors appropriately, e.g., show an error message
+        }
+      };
+
+      const onNotApproved = async (listingID) => {
+        // Update state first (optional, can be combined)
+        setFormData({ ...formData, type: "decline" });
+        
+            try {
+            // Reference the document to update (replace with your logic)
+            const listingRef = doc(collection(db, "listings"), listingID);
+        
+            // Update the type field
+            await updateDoc(listingRef, "type", "decline");
+        
+            console.log("Listing type updated successfully!");
+            } catch (error) {
+            console.error("Error updating listing type:", error);
+          // Handle errors appropriately, e.g., show an error message
+            }
     }
 
 
@@ -205,8 +242,8 @@ const Profile = () => {
                                     key={listing.id}
                                     id={listing.id}
                                     listing={listing.data}
-                                    onDelete={() => onDelete(listing.id)}
-                                    onEdit={() => onEdit(listing.id)}
+                                    Approved={() => onApproved(listing.id)}
+                                    notApproved={() => onNotApproved(listing.id)}
                                 />
                             ))}
                         </ul>
