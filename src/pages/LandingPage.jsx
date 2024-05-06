@@ -1,7 +1,7 @@
 import LandingPage1 from "../pages/imgs/landingpage.jpeg"
 import LandingPage2 from "../pages/imgs/landingpage1.jpg"
-import h1 from "../pages/imgs/h1.jpg"
-import h2 from "../pages/imgs/h2.jpg"
+import h5 from "../pages/imgs/h5.jpg"
+import h6 from "../pages/imgs/h6.jpg"
 import h3 from "../pages/imgs/h3.jpg"
 import Header from "../components/Header"
 import LoginModal from "../components/LoginModal"
@@ -64,20 +64,20 @@ const LandingPage = () => {
             <div className="container mx-auto mt-5">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
                     <div className="bg-white overflow-hidden shadow-lg w-300 md:w-400  lg:w-400">
-                    <img src={h1} alt="Placeholder" className="w-full h-48 object-cover object-center hover:scale-105" />
+                    <img src={h5} alt="Placeholder" className="w-full h-48 object-cover object-center hover:scale-105" />
                     <div className="px-2 pt-4 pb-2">
-                    <h2 className="text-xl font-semibold ">Palawan</h2>
+                    <h2 className="text-xl font-semibold ">Manila</h2>
                     <p>
-                        Palawan is an island province in the Philippines known for its stunning natural beauty and biodiversity. It is often referred to as the "last frontier" due to its pristine landscapes and remote location
+                    Manila, known as the “Pearl of the Orient”, is the nation’s capital city. This bustling historic city is full of things to see and do — including museums, parks, theaters, shopping malls and a plethora of restaurants to choose from.
                     </p>
                     </div>
                 </div>
                     <div className="bg-white overflow-hidden shadow-lg w-300 md:w-400  lg:w-400">
-                    <img src={h2} alt="Placeholder" className="w-full h-48 object-cover object-center hover:scale-105" />
+                    <img src={h6} alt="Placeholder" className="w-full h-48 object-cover object-center hover:scale-105" />
                     <div className="px-2 pt-4 pb-2">
-                    <h2 className="text-xl font-semibold ">Palawan</h2>
+                    <h2 className="text-xl font-semibold ">Tagaytay</h2>
                     <p>
-                        Palawan is an island province in the Philippines known for its stunning natural beauty and biodiversity. It is often referred to as the "last frontier" due to its pristine landscapes and remote location
+                    Tagaytay is one of the most frequented places in the south because of its outstanding scenery. It overlooks Taal Lake and Taal Volcano and cold climate, given its high altitude. This makes both the volcano and lake viewable from several vantage points. This also explains where it gets its moniker and why tourism is one of its major industries.
                     </p>
                     </div>
                 </div>
@@ -99,8 +99,8 @@ const LandingPage = () => {
         <div className="w-screen my-0 bg-white">
         <div className="max-w-screen-lg mx-auto flex flex-col items-center md:flex-row">
             <div className="w-full md:w-1/2 md:pr-8 px-4 py-8">
-            <h1 className="text-4xl font-bold mb-4">A home for you...</h1>
-            <p className="text-gray-800">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat, ducimus quo. Ipsa dolorum maxime nam voluptates eius nostrum tenetur rem hic culpa suscipit? Reprehenderit quod animi ex voluptatem velit eligendi?</p>
+            <h1 className="text-4xl font-bold mb-4">Unlock the Door to Your Next Adventure: Rent a Home Today.</h1>
+            <p className="text-gray-800">Each rental is designed with you in mind, ensuring a space where you can relax, work, and play. With flexible lease terms and responsive property management, your rental experience will be seamless. Discover the place where you can truly feel at home.</p>
             </div>
 
             <div className="w-full md:w-1/2 md:pl-8 pb-10 md:py-3">
