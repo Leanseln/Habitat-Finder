@@ -132,12 +132,13 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
 
         const formDataCopy = {
             ...formData,
+            type: "pending",
             imgUrls,
             timestamp: serverTimestamp(),
             userRef: auth.currentUser.uid
         };
         delete formDataCopy.images;
-
+        
         const docRef = doc(db, "listings", id);
 
         await updateDoc(docRef, formDataCopy);
