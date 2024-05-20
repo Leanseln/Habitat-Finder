@@ -25,6 +25,11 @@ export default function PropertyCard({ listing, id, onDelete, onEdit, Approved, 
                         <MdLocationOn className='h-4 w-4 text-[#b35c15]' />
                         <p className='font-semibold text-lg mb=[2px] text-[#b35c15] truncate'>{listing.address}</p>
                     </div>
+                    <div className="flex items-center space-x-1 text-[#b35c15]">
+                            <p className='font-semibold text-xs'>
+                                {listing.city}
+                            </p>
+                        </div>
                     <div className=" flex items-center mt-2 space-x-1">
                         <div className="flex items-center space-x-1 text-[#b35c15]">
                             <p className='font-semibold text-xs'>
