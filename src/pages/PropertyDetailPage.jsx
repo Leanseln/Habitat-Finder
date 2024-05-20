@@ -3,7 +3,7 @@ import HomeHeader from '../components/HomeHeader'
 import { getAuth } from 'firebase/auth'
 import { useState } from 'react'
 import { doc, getDoc } from 'firebase/firestore'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { db } from '../firebase'
 import Loading from '../components/Loading'
 import { FaBed, FaBath, FaParking } from "react-icons/fa";
@@ -13,6 +13,7 @@ import Contact from '../components/Contact'
 
 const PropertyDetailPage = () => {
 
+    const navigate = useNavigate();
     const auth = getAuth();
     const params = useParams();
     const [loading, setLoading] = useState(true);
@@ -33,6 +34,10 @@ const PropertyDetailPage = () => {
         if (loading) {
             return <Loading />;
         }
+
+        const handleGoBack = () => {
+            navigate(-1); // Go back one page in history
+        };
 
 
     return (
@@ -127,10 +132,12 @@ const PropertyDetailPage = () => {
                             <Contact userRef={listing.userRef} listing={listing} />
                         )}
                         </div>
-                        
-                        
-
                     </div>
+                            <div className='flex justify-center mt-5'>
+                                <div>
+                                    <button className='bg-green-600 text-white font-semibold rounded px-3 text-[24px] sm:text-sm h-10' onClick={handleGoBack}>Back</button>
+                                </div>
+                            </div>
                 </div>
             </div>
             </div>

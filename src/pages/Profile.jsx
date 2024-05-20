@@ -14,6 +14,8 @@ import { TbEdit } from "react-icons/tb";
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, updateInfo } from '../store/userSlice';
 import Footer from '../components/Footer';
+import Modal from "../components/ConfirmationModal.jsx"
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Profile = () => {
 
@@ -23,12 +25,15 @@ const Profile = () => {
     const [declinedListings, setDeclinedListings] = useState(null);
     const [pendingListings, setPendingListings] = useState(null);
     const [changeDetail, setChangeDetail] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState();
     const [showPropertyModal, setShowPropertyModal] = useState(false);
     const [showEditPropertyModal, setShowEditPropertyModal] = useState(false);
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
     const [editId, setEditId] = useState('');
+    const [color, setColor] = useState();
+    const [open, setOpen] = useState(false);
+    
 
     const [formData, setFormData] = useState({
         name: user?.displayName ?? '',
@@ -228,10 +233,42 @@ const Profile = () => {
                         }}>
                             {changeDetail ? "Apply change" : "Change Name"}
                         </p>
+                        <div>
 
-                            <p
-                                onClick={onLogout}
-                                className='text-blue-600 hover:text-blue-700 transition ease-in-out duration-200 cursor-pointer'>Sign out</p>
+                                <button type="button" className='text-blue-600 hover:text-blue-700 cursor-pointer' onClick={() => setOpen(true)}>Sign out</button>
+                        </div>
+
+                        <Modal open={open} onClose={() => setOpen(false)} >
+                            <div className="text-center w-56">
+                            <div className="mx-auto my-4 w-48">
+                                <h3 className="text-lg font-black text-gray-800">Confirm Logout</h3>
+                                <p className="text-sm text-gray-500">
+                                Are you sure, do you want to log out?
+                                </p>
+                            </div>
+                            {loading ? (
+                                <ClipLoader
+                                color={color}
+                                loading={loading}
+                                size={50}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                                />
+                            ) : (
+                                <div className="flex gap-4">
+                                <button className="btn btn-danger w-full" onClick={onLogout}>
+                                    Log Out
+                                </button>
+                                <button
+                                    className="btn btn-light w-full"
+                                    onClick={() => setOpen(false)}
+                                >
+                                    Cancel
+                                </button>
+                                </div>
+                            )}
+                            </div>
+                        </Modal>
                         </div>
                         
                     </div>
