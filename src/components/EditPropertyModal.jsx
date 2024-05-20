@@ -75,9 +75,9 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
 
         setLoading(true);
         
-        if(images.length > 16) {
+        if(images.length > 51) {
             setLoading(false);
-            toast.error("Maximum 15 images are allowed");
+            toast.error("Maximum 50 images are allowed");
             return;
         }
         
@@ -132,12 +132,13 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
 
         const formDataCopy = {
             ...formData,
+            type: "pending",
             imgUrls,
             timestamp: serverTimestamp(),
             userRef: auth.currentUser.uid
         };
         delete formDataCopy.images;
-
+        
         const docRef = doc(db, "listings", id);
 
         await updateDoc(docRef, formDataCopy);
@@ -354,7 +355,7 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
                 </div>
                 
                 <div className="mb-6">
-                    <p className='text-lg font-semibold'>Images<span className='text-base font-normal'>(Please select again your images)</span></p>
+                    <p className='text-lg font-semibold'>Images</p>
                     
                     <input 
                         type="file"

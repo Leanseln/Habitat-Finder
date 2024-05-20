@@ -95,8 +95,8 @@ const AddPropertyModal = ({closeModal}) => {
 
         setLoading(true);
         
-        if(images.length > 15) {
-            toast.error("Maximum 15 images are allowed");
+        if(images.length > 51) {
+            toast.error("Maximum 50 images are allowed");
             return;
         }
         
@@ -371,7 +371,7 @@ const AddPropertyModal = ({closeModal}) => {
                 </div>
                 
                 <div className="mb-6">
-                    <p className='text-lg font-semibold'>Images <span className='text-base font-normal'>(The first image will be the thumbnail(15 max))</span></p>
+                    <p className='text-lg font-semibold'>Images</p>
                     
                     <input 
                         type="file"
@@ -382,7 +382,9 @@ const AddPropertyModal = ({closeModal}) => {
                         required 
                         className='w-full px-3 py-1.5 text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:border-slate-600'
                         />
+                        
                 </div>
+                
 
                 <button type='submit' className='mb-6 w-full px-7 py-3 bg-[#ce6c10] text-white font-medium text-sm uppercase rounded shadow-md hover:bg-[#BD5B00] hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-[#8a4300] active:shadow-lg transition duration-150 ease-in-out'
                 >Add Property</button>
