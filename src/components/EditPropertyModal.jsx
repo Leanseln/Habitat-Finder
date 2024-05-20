@@ -63,10 +63,13 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
             }));
         }
         if(!e.target.files){
-            setFormData((prevState)=>({
-                ...prevState,
-                [e.target.id]: e.target.value,
-            }));
+            const value =
+        e.target.type === 'radio' ? e.target.value === 'true' : e.target.value;
+
+        setFormData((prevState) => ({
+            ...prevState,
+            [e.target.id]: value,
+        }));
         }
     }
     
@@ -262,25 +265,25 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
                 <div className="flex items-center space-x-4">
                     <input
                     type="radio"
-                    id="yesparking"
+                    id="parking"
                     name="parking"
                     value={true}
                     onChange={onChange}
                     checked={parking}
                     className="w-4 h-4 border-gray-300 rounded-full focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     />
-                    <label htmlFor="yesparking">Yes</label>
+                    <label htmlFor="parking">Yes</label>
 
                     <input
                     type="radio"
-                    id="noparking"
+                    id="parking"
                     name="parking"
                     value={false}
                     onChange={onChange}
                     checked={!parking}
                     className="w-4 h-4 border-gray-300 rounded-full focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     />
-                    <label htmlFor="noparking">No</label>
+                    <label htmlFor="parking">No</label>
                 </div>
                 </div>
 
@@ -289,25 +292,25 @@ const EditPropertyModal = ({closeEditModal, data, id}) => {
                 <div className="flex items-center space-x-4">
                     <input
                     type="radio"
-                    id="yesfurnished"
+                    id="furnished"
                     name="furnished"
                     value={true}
                     onChange={onChange}
                     checked={furnished}
                     className="w-4 h-4 border-gray-300 rounded-full focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     />
-                    <label htmlFor="yesfurnished">Yes</label>
+                    <label htmlFor="furnished">Yes</label>
 
                     <input
                     type="radio"
-                    id="nofurnished"
+                    id="furnished"
                     name="furnished"
                     value={false}
                     onChange={onChange}
                     checked={!furnished}
                     className="w-4 h-4 border-gray-300 rounded-full focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     />
-                    <label htmlFor="nofurnished">No</label>
+                    <label htmlFor="furnished">No</label>
                 </div>
                 </div>
 

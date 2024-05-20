@@ -24,12 +24,9 @@ export default function PropertyCard({ listing, id, onDelete, onEdit, Approved, 
                     <div className='flex items-center space-x-1'>
                         <MdLocationOn className='h-4 w-4 text-[#b35c15]' />
                         <p className='font-semibold text-lg mb=[2px] text-[#b35c15] truncate'>{listing.address}</p>
+                        
                     </div>
-                    <div className="flex items-center space-x-1 text-[#b35c15]">
-                            <p className='font-semibold text-xs'>
-                                {listing.city}
-                            </p>
-                        </div>
+                        <p className='font-semibold text-[14px] mb=[2px] text-[#b35c15] truncate'>{listing.city}</p>
                     <div className=" flex items-center mt-2 space-x-1">
                         <div className="flex items-center space-x-1 text-[#b35c15]">
                             <p className='font-semibold text-xs'>
@@ -44,10 +41,8 @@ export default function PropertyCard({ listing, id, onDelete, onEdit, Approved, 
                         </div>
                     </div>
                     
-                    <p className='text-[#d8681d] mt-2 font-semibold'>₱{listing.Price
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",") 
-                    }  / month
-                    </p>
+                    <p className='text-[#d8681d] mt-2 font-semibold'>₱{String(listing.Price)
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} / month</p>
 
                     
                 </div>

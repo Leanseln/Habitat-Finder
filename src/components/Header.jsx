@@ -33,8 +33,8 @@ const Header = () => {
                         <img src={LOGO} className='h-12 hover:scale-105' />
                     </div>
                     <div>
-                        <ul className='flex space-x-10'>
-                            <li className='text-sm lg:text-lg font-semibold bg-[#994b03bd] text-white px-4 py-1 rounded-sm cursor-pointer hover:scale-105 transition duration-100 ease-in-out'
+                        <ul className=' flex space-x-10'>
+                            <li className='mr-2 text-sm lg:text-lg font-semibold bg-[#994b03bd] text-white px-4 py-1 rounded-sm cursor-pointer hover:scale-105 transition duration-100 ease-in-out'
                             onClick={() => setShowModalLogin(true)}>
                                 Login
                             </li>

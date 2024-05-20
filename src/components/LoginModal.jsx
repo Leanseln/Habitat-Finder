@@ -58,7 +58,7 @@ const LoginModal = ({closeModalLogin, openModalRegister, openForgotPassword}) =>
     return (
             <>
             <div className="bg-black bg-opacity-40 items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                <div className="relative w-4/6 sm:w-[50%] lg:max-w-[25%] my-6 mx-auto">
+                <div className="relative min-w-full sm:max-w-[50%] sm:min-w-[50%] lg:max-w-[30%] lg:min-w-[30%] my-6 mx-auto">
                     {/*content*/}
                     <div className="bg-[#EFC7A2] border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none">
                         {/*header*/}
@@ -114,7 +114,7 @@ const LoginModal = ({closeModalLogin, openModalRegister, openForgotPassword}) =>
                                     }}>Forgot Password?</p>
                                 </p>
                             </div>
-                            <button className='w-full bg-[#28a3eb] text-white px-7 py-3 text-[12px] lg:text-sm font-medium uppercase rounded shadow-md hover:bg-[#3880aa] transition duration-150 ease-in-out hover:shadow-lg active:bg-[#286d96]' type="submit">Sign In</button>
+                            <button className='w-full bg-[#28a3eb] text-white px-7 py-3 text-[12px] lg:text-sm font-medium uppercase rounded shadow-md hover:bg-[#3880aa] transition duration-150 ease-in-out hover:shadow-lg active:bg-[#286d96]' type="submit">Login</button>
 
                             <div className='my-1'>
                                 <p className='font-semibold text-[10px] md:text-[12px] lg:text-sm'>OR</p>

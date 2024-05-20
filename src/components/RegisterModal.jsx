@@ -89,7 +89,7 @@ const RegisterModal = ({closeModalRegister, openModalLogin}) => {
     return (
     <>
     <div className="bg-black bg-opacity-40 items-center flex justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative w-4/6 sm:w-[50%] lg:max-w-[25%] my-6 mx-auto">
+        <div className="relative  min-w-full sm:max-w-[50%] sm:min-w-[50%] lg:max-w-[30%] lg:min-w-[30%] my-6 mx-auto">
             {/*content*/}
             <div className="bg-[#EFC7A2] border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none">
                 {/*header*/}
@@ -139,7 +139,7 @@ const RegisterModal = ({closeModalRegister, openModalLogin}) => {
                             }
                         </div>
                 
-                        <button className="border-solid w-full bg-[#28a3eb] font-medium text-white px-7 py-3 rounded-md uppercase text-sm" type="submit">Sign Up</button>
+                        <button className="border-solid w-full bg-[#28a3eb] font-medium text-white px-7 py-3 rounded-md uppercase text-sm" type="submit">Register</button>
                         
                         <div className='my-1'>
                         <p className='font-semibold text-[10px] md:text-[12px] lg:text-sm'>OR</p>
