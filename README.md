@@ -4,14 +4,19 @@ Habitat Finder
 Key Features
 
   Search & Filter: Quickly find properties that match your criteria with advanced search and filtering options.
+  
   Responsive Design: Enjoy a seamless experience across all devices, from desktops to smartphones.
+  
   Firebase Integration: The application leverages Firebase for user authentication and real-time database management, ensuring secure and efficient data handling.
+  
   User-Friendly Interface: An intuitive and clean interface designed to enhance the user experience.
 
 Technologies Used
 
   React.js: A powerful JavaScript library for building dynamic user interfaces.
+  
   Firebase: A comprehensive platform for authentication and backend services.
+  
   Tailwind CSS: A utility-first CSS framework for styling and layout.
 
 
