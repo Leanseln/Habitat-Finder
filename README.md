@@ -1,6 +1,6 @@
 Habitat Finder
 
-Habitat Finder is a modern real estate web application designed to simplify the home-search process. Whether you're looking to buy or rent, Habitat Finder provides a streamlined experience, allowing users to browse, search, and filter properties according to their preferences.
+  / /    Habitat Finder is a modern real estate web application designed to simplify the home-search process. Whether you're looking to buy or rent, Habitat Finder provides a streamlined experience, allowing users to browse, search, and filter properties according to their preferences.
 
 Key Features
 
@@ -25,5 +25,4 @@ Tailwind CSS: A utility-first CSS framework for styling and layout.
 
   ![image](https://github.com/user-attachments/assets/a8b481f4-1da5-4cce-ac09-e0e3d48aa6b1)
 
-  ![image](https://github.com/user-attachments/assets/37c9370c-b382-40f0-b16d-5fa0d9dfe535)
 
