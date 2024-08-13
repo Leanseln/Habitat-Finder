@@ -1,6 +1,6 @@
 Habitat Finder
 
-  / /    Habitat Finder is a modern real estate web application designed to simplify the home-search process. Whether you're looking to buy or rent, Habitat Finder provides a streamlined experience, allowing users to browse, search, and filter properties according to their preferences.
+Habitat Finder is a modern real estate web application designed to simplify the home-search process. Whether you're looking to buy or rent, Habitat Finder provides a streamlined experience, allowing users to browse, search, and filter properties according to their preferences.
 
 Key Features
 
