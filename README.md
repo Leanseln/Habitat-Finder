@@ -1,8 +1,8 @@
-<h1>Habitat Finder</h1>
+<h1><b>Habitat Finder</b></h1>
 
   <p>Habitat Finder is a modern real estate web application designed to simplify the home-search process. Whether you're looking to buy or rent, Habitat Finder provides a streamlined experience, allowing users to browse, search, and filter properties according to their preferences.</p>
 
-<h2>Key Features</h2>
+<h2><b>Key Features</b></h2>
 
   <p><b>Search & Filter:</b> Quickly find properties that match your criteria with advanced search and filtering options.</p>
   
